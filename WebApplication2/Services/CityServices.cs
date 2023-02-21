@@ -5,7 +5,7 @@ using WebApplication2.Domain.Models;
 
 namespace WebApplication2.Services
 {
-    public class CityServices :ICityServices
+    public class CityServices : ICityServices
 
     {
         private readonly IAppRepo<City> _repo;

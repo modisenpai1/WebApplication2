@@ -10,6 +10,6 @@ namespace WebApplication2.Services
         public IEnumerable<City> GetAll();
         public bool SaveChanges();
         public void Update(City city);
-        public void Delete();
+        public void Delete(City city);
     }
 }

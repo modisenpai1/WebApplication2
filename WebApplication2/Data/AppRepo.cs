@@ -29,8 +29,6 @@ namespace WebApplication2.Data
         public void DeleteItem(TEntity item)
         {
            _context.Set<TEntity>().Remove(item);
-           
-
         }
 
         public IEnumerable<TEntity> GetAll()

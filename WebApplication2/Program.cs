@@ -6,17 +6,17 @@ using WebApplication2.Data;
 using WebApplication2.Domain.Models;
 using WebApplication2.Services;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
 builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(//"server=PHOTOSHOP-PC\\SQLEXPRESS;initial catalog=webapp2;user id=test;password=test123;trustservercertificate=true;"
-                    "Server=localhost;Database=EventsAppDb;User Id=sa;Password=admin;Trusted_Connection=true;Encrypt=False;"
+                                     "server=desktop-itl4gju\\sqlexpress;initial catalog=eventapi;user id=myapi;password=thispassword;trustservercertificate=true;"
+                                     //for modi
+                    //"Server=localhost;Database=EventsAppDb;User Id=sa;Password=admin;Trusted_Connection=true;Encrypt=False;"
                     ,
                     sqlServerOptions => sqlServerOptions.CommandTimeout(420)), ServiceLifetime.Transient);
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -32,8 +32,6 @@ builder.Services.AddScoped<ICityServices, CityServices>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-
 
 var app = builder.Build();
 

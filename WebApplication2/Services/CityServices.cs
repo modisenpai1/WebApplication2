@@ -22,9 +22,9 @@ namespace WebApplication2.Services
             _repo.SaveChanges();
         }
 
-        public void Delete()
+        public void Delete(City city)
         {
-            throw new NotImplementedException();
+            _repo.DeleteItem(city);
         }
 
         public IEnumerable<City> GetAll()

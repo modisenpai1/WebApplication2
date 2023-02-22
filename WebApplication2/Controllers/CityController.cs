@@ -4,6 +4,7 @@ using WebApplication2.Domain.Models;
 using WebApplication2.Services;
 using WebApplication2.Domain.DTOs;
 using Microsoft.AspNetCore.JsonPatch;
+using Duende.IdentityServer.Extensions;
 
 namespace WebApplication2.Controllers
 {
@@ -78,20 +79,22 @@ namespace WebApplication2.Controllers
             return NoContent();
         }
 
-        //}
-        //[HttpDelete("{id}")]
-        //public ActionResult DeleteCountry(int id)
-        //{ 
-        //    var city = _repo.GetById(id);
-        //    if (city == null)
-        //    {
-        //        return NotFound();
-
-        //    }
-        //    _repo.DeleteItem(city);
-        //    _repo.SaveChanges();
-        //    return NoContent();
-        //}
-
+    
+    [HttpDelete("{id}")]
+    public IActionResult DeleteCountry(int id)
+    {
+        var city = _repo.GetCity(id);
+            if(!city.eventsAtCity.IsNullOrEmpty())
+            {
+                return BadRequest(city.eventsAtCity);
+            }
+            else
+            {
+             _repo.Delete(city);
+             _repo.SaveChanges();
+             return NoContent();
+            }
     }
+
+}
 }

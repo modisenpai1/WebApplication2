@@ -22,12 +22,34 @@ namespace WebApplication2.Services
             _repo.SaveChanges();
         }
 
+        public void Delete()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<City> GetAll()
+        {
+            return _repo.Table.Include(x=>x.country).ToList();
+        }
+
         public City GetCity(int id)
         {   
             
             var city = _repo.Table.Include(X => X.country).FirstOrDefault(x => x.Id == id);
       
             return city;
+        }
+
+       
+
+        public bool SaveChanges()
+        {
+            return _repo.SaveChanges();
+        }
+
+        public void Update(City city)
+        {
+            _repo.UpdateItem(city);
         }
     }
 }

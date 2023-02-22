@@ -8,9 +8,8 @@ namespace WebApplication2.Services
         public void AddCity(City city);
         public City GetCity(int id);
         public IEnumerable<City> GetAll();
-        public void patch(City city);
         public bool SaveChanges();
-        public void update();
-        public void delete();
+        public void Update(City city);
+        public void Delete();
     }
 }

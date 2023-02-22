@@ -51,7 +51,7 @@ namespace WebApplication2.Data
 
      
 
-        public void UpdateItem(TEntity item, int id)
+        public void UpdateItem(TEntity item)
         {
            
         }

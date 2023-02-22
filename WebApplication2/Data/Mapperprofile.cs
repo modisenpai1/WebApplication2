@@ -8,12 +8,12 @@ namespace WebApplication2.Data
     {
         public Mapperprofile()
         {
-            CreateMap<CityCreateDto,City>();
+            CreateMap<CityCreateDto,City>().ReverseMap();
             CreateMap<City,CityReadDto>();
             CreateMap<Country,CountryReadDtoCity>();
             CreateMap<City, CityReadDtoCityCountry>();
             CreateMap<Country, CountryReadDto>();
-            CreateMap<CountryCreateDto,Country>();
+            CreateMap<CountryCreateDto, Country>();
         }
     }
 }

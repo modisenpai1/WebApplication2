@@ -20,13 +20,8 @@ namespace WebApplication2.Controllers
             _repo = repo;
             _mapper = mapper;
         }
-        [HttpGet]
-        public ActionResult<IEnumerable<CityReadDto>> getAllcities()
-        {
-            var cities = _mapper.Map<IEnumerable<CityReadDto>> (_repo.GetAll());
+        
 
-            return Ok(cities);
-        }
         [Produces(typeof(CityReadDto))]
         [HttpGet("{id}", Name = "GetgetCityById")]
         public IActionResult getCityById(int id)
@@ -59,6 +54,15 @@ namespace WebApplication2.Controllers
             return Ok(CityModle.Id);
 
         }
+
+        [HttpGet]
+        public ActionResult<IEnumerable<CityReadDto>> getAllcities()
+        {
+            var cities = _mapper.Map<IEnumerable<CityReadDto>>(_repo.GetAll());
+
+            return Ok(cities);
+        }
+
         [HttpPatch("{id}")]
         public IActionResult PatchCity(int id,JsonPatchDocument<CityCreateDto>patchDoc)
         {
@@ -80,21 +84,22 @@ namespace WebApplication2.Controllers
         }
 
     
-    [HttpDelete("{id}")]
-    public IActionResult DeleteCountry(int id)
-    {
-        var city = _repo.GetCity(id);
-            if(!city.eventsAtCity.IsNullOrEmpty())
+        [HttpDelete("{id}")]
+        public IActionResult DeleteCountry(int id)
+        {
+            var city = _repo.GetCity(id);
+            if(city.eventsAtCity.IsNullOrEmpty())
             {
-                return BadRequest(city.eventsAtCity);
+                _repo.Delete(city);
+                _repo.SaveChanges();
+                return NoContent();
+               
             }
             else
             {
-             _repo.Delete(city);
-             _repo.SaveChanges();
-             return NoContent();
+                //TODO: switch the return to event read dto after its made
+                return BadRequest(city.eventsAtCity);
             }
+        }
     }
-
-}
 }

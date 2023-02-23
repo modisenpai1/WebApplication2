@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication2.Data;
 using WebApplication2.Domain.DTOs;
@@ -19,11 +20,12 @@ namespace WebApplication2.Controllers
             _mapper = mapper;
             _repo = repo;
         }
-        //[HttpGet]
-        //public ActionResult<IEnumerable<Country>> getAllCountries() {
-        //    var Countries = _repo.GetAll();
-        //    return Ok(Countries);
-        //}
+     [HttpGet]
+        [Produces(typeof(CountryReadDto))]
+       public IActionResult getAllCountries() {
+      var Countries = _mapper.Map<CountryReadDto>(_repo.GetAllCountries());
+            return Ok(Countries);
+        }
         [HttpGet("{id}", Name = "GetgetCountryById")]
         public ActionResult<Country> getCountryById(int id) {
 
@@ -47,34 +49,39 @@ namespace WebApplication2.Controllers
             return Ok();
 
         }
-        //[HttpPut("{id}")]
-        //public ActionResult<Country> UpdateCountrty(int id, Country country)
-        //{
-        //    var OldCountry = _repo.GetById(id);
+        [HttpPatch("{id}")]
+        public IActionResult PatchCity(int id, JsonPatchDocument<CountryCreateDto> patchDoc)
+        {
+            var CountryFromRepo = _repo.GetCountry(id);
+            if (CountryFromRepo == null)
+            {
+                return NotFound();
+            }
+            var CountryToPatch = _mapper.Map<CountryCreateDto>(CountryFromRepo);
+            patchDoc.ApplyTo(CountryToPatch, ModelState);
+            if (!TryValidateModel(CountryToPatch))
+            {
+                return ValidationProblem(ModelState);
+            }
+            _mapper.Map(CountryToPatch, CountryFromRepo);
+            _repo.Update(CountryFromRepo);
+            _repo.SaveChanges();
+            return NoContent();
+        }
 
-        //    if (country == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    OldCountry = country;
-        //    _repo.SaveChanges();
-        //    return NoContent();
-        //}
-        //[HttpDelete("{id}")]
-        //public ActionResult DeleteCountry(int id) {
-        //    var Country = _repo.GetById(id);
-        //    if (Country == null)
-        //    {
-        //        return NotFound();
-
-        //    }
-        //    _repo.DeleteItem(Country);
-        //    _repo.SaveChanges();
-        //    return NoContent();
-        //}
-
+        [HttpDelete("{id}")]
+        public IActionResult DeleteCountry(int id)
+        {
+            var Country= _repo.GetCountry(id);
+       
+            
+                _repo.Delete(Country);
+                _repo.SaveChanges();
+                return NoContent();
             
         }
+
+    }
 
 
 

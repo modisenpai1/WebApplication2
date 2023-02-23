@@ -21,7 +21,8 @@ namespace WebApplication2.Controllers
             _mapper = mapper;
         }
         [HttpGet]
-        public ActionResult<IEnumerable<CityReadDto>> getAllcities()
+        [Produces(typeof(CityReadDto))]
+        public IActionResult getAllcities()
         {
             var cities = _mapper.Map<IEnumerable<CityReadDto>> (_repo.GetAll());
 

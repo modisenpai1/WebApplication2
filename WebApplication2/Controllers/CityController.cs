@@ -75,13 +75,12 @@ namespace WebApplication2.Controllers
             }
             _mapper.Map(cityToPatch, cityFromRepo);
             _repo.Update(cityFromRepo);
-            _repo.SaveChanges();
             return NoContent();
         }
 
     
     [HttpDelete("{id}")]
-    public IActionResult DeleteCountry(int id)
+    public IActionResult DeleteCity(int id)
     {
         var city = _repo.GetCity(id);
             if(!city.eventsAtCity.IsNullOrEmpty())
@@ -91,7 +90,7 @@ namespace WebApplication2.Controllers
             else
             {
              _repo.Delete(city);
-             _repo.SaveChanges();
+
              return NoContent();
             }
     }

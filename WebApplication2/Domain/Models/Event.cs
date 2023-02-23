@@ -4,7 +4,7 @@ using WebApplication2.Data;
 
 namespace WebApplication2.Domain.Models
 {
-    public class Event :IEntity
+    public class Event //IEntity
     {
         
   

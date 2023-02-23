@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebApplication2.Data
 {
-    public class AppRepo<TEntity>: IAppRepo<TEntity> where TEntity : class,IEntity
+    public class AppRepo<TEntity>: IAppRepo<TEntity> where TEntity : class
 
     {
         private readonly AppDbContext _context;
@@ -38,7 +38,7 @@ namespace WebApplication2.Data
 
         public TEntity GetById(int id)
         {
-            return _context.Set<TEntity>().FirstOrDefault(p => p.Id == id);
+            return _context.Set<TEntity>().Find(id);
         }
 
         public bool SaveChanges()

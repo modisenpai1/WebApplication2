@@ -6,7 +6,7 @@ using WebApplication2.Domain.DTOs;
 
 namespace WebApplication2.Domain.Models
 {
-    public class City : IEntity
+    public class City //: IEntity
     {
       
         public City()

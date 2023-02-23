@@ -3,7 +3,7 @@ using WebApplication2.Data;
 
 namespace WebApplication2.Domain.Models
 {
-    public class Country:IEntity
+    public class Country//IEntity
     {
         [Key]
         public int Id { get; set; }

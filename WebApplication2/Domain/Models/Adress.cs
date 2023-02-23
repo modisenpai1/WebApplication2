@@ -4,7 +4,7 @@ using WebApplication2.Data;
 
 namespace WebApplication2.Domain.Models
 {
-    public class Adress : IEntity
+    public class Adress //: IEntity
     {
         [Key]
         public int Id { get; set; }

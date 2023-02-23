@@ -4,7 +4,7 @@ using WebApplication2.Data;
 
 namespace WebApplication2.Domain.Models
 {
-    public class Orginization : IEntity
+    public class Orginization //IEntity
     {
         [Key]
         public int Id { get; set; }

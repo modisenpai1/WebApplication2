@@ -14,6 +14,8 @@ namespace WebApplication2.Data
             CreateMap<City, CityReadDtoCityCountry>();
             CreateMap<Country, CountryReadDto>();
             CreateMap<CountryCreateDto, Country>();
+            CreateMap<User, UserCreateDto>().ReverseMap();
+            CreateMap<User, UserReadDto>().ReverseMap();
         }
     }
 }

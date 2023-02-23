@@ -24,8 +24,9 @@ namespace WebApplication2.Controllers
         [Produces(typeof(CityReadDto))]
         public IActionResult getAllcities()
         {
-            var cities = _mapper.Map<IEnumerable<CityReadDto>> (_repo.GetAll());
-
+            var cities = _mapper.Map<IEnumerable<CityReadDto>>(_repo.GetAll());
+            return Ok(cities);
+        }
         [Produces(typeof(CityReadDto))]
         [HttpGet("{id}", Name = "GetgetCityById")]
         public IActionResult getCityById(int id)
@@ -58,15 +59,6 @@ namespace WebApplication2.Controllers
             return Ok(CityModle.Id);
 
         }
-
-        [HttpGet]
-        public ActionResult<IEnumerable<CityReadDto>> getAllcities()
-        {
-            var cities = _mapper.Map<IEnumerable<CityReadDto>>(_repo.GetAll());
-
-            return Ok(cities);
-        }
-
         [HttpPatch("{id}")]
         public IActionResult PatchCity(int id,JsonPatchDocument<CityCreateDto>patchDoc)
         {
@@ -94,7 +86,6 @@ namespace WebApplication2.Controllers
             if(!city.eventsAtCity.IsNullOrEmpty())
             {
                 _repo.Delete(city);
-                _repo.SaveChanges();
                 return NoContent();
                
             }

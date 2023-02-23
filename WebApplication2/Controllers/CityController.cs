@@ -20,7 +20,11 @@ namespace WebApplication2.Controllers
             _repo = repo;
             _mapper = mapper;
         }
-        
+        [HttpGet]
+        [Produces(typeof(CityReadDto))]
+        public IActionResult getAllcities()
+        {
+            var cities = _mapper.Map<IEnumerable<CityReadDto>> (_repo.GetAll());
 
         [Produces(typeof(CityReadDto))]
         [HttpGet("{id}", Name = "GetgetCityById")]
@@ -79,16 +83,15 @@ namespace WebApplication2.Controllers
             }
             _mapper.Map(cityToPatch, cityFromRepo);
             _repo.Update(cityFromRepo);
-            _repo.SaveChanges();
             return NoContent();
         }
 
     
-        [HttpDelete("{id}")]
-        public IActionResult DeleteCountry(int id)
-        {
-            var city = _repo.GetCity(id);
-            if(city.eventsAtCity.IsNullOrEmpty())
+    [HttpDelete("{id}")]
+    public IActionResult DeleteCity(int id)
+    {
+        var city = _repo.GetCity(id);
+            if(!city.eventsAtCity.IsNullOrEmpty())
             {
                 _repo.Delete(city);
                 _repo.SaveChanges();
@@ -97,8 +100,9 @@ namespace WebApplication2.Controllers
             }
             else
             {
-                //TODO: switch the return to event read dto after its made
-                return BadRequest(city.eventsAtCity);
+             _repo.Delete(city);
+
+             return NoContent();
             }
         }
     }

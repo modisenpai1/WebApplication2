@@ -2,7 +2,7 @@
 
 namespace WebApplication2.Data
 {
-    public interface IAppRepo<TEntity> where TEntity : class, IEntity
+    public interface IAppRepo<TEntity> where TEntity : class
     {
         IEnumerable<TEntity> GetAll();
         TEntity GetById(int id);

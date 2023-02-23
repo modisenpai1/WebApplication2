@@ -25,6 +25,7 @@ namespace WebApplication2.Services
         public void Delete(City city)
         {
             _repo.DeleteItem(city);
+            _repo.SaveChanges();
         }
 
         public IEnumerable<City> GetAll()
@@ -40,16 +41,10 @@ namespace WebApplication2.Services
             return city;
         }
 
-       
-
-        public bool SaveChanges()
-        {
-            return _repo.SaveChanges();
-        }
-
         public void Update(City city)
         {
             _repo.UpdateItem(city);
+            _repo.SaveChanges();
         }
     }
 }

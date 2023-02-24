@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using WebApplication2.Data;
 using WebApplication2.Domain.Models;
 
@@ -27,15 +28,16 @@ namespace WebApplication2.Services
         public IEnumerable<User> GetAll()
         {
             return _repo.Table.Include(x =>x.city).
-                Include(x=>x.Country).
                 Include(x=>x.UserOrgs).
                 Include(x=>x.EventUsers).
                 ToList();
         }
 
-        public User GetUser(int id)
+        public User GetUser(string key)
         {
-            throw new NotImplementedException();
+            return _repo.Table.Include(x => x.city).
+                Include(x => x.UserOrgs).
+                Include(x => x.EventUsers).FirstOrDefault(x=>x.Id==key);
         }
 
         public void Update(User user)

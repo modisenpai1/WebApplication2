@@ -29,9 +29,6 @@ namespace WebApplication2.Data
             modelBuiler.Entity<User>().HasOne(u => u.Country).WithMany(c => c.UsersInCountry).HasForeignKey("CountryId").OnDelete(DeleteBehavior.Restrict);
             modelBuiler.Entity<User>().HasOne(u => u.city).WithMany(c => c.UserInCity).HasForeignKey("CityId").OnDelete(DeleteBehavior.Restrict);
 
-
-
-
         }
 
 

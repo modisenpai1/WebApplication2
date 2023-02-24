@@ -19,6 +19,7 @@ namespace WebApplication2.Domain.DTOs
         public string phoneNumber { get; set; }
         public DateTime BirthDate { get; set; }
         public CountryReadDto country { get; set; }
+        public CityReadDto city { get; set; }
         
     }
 }

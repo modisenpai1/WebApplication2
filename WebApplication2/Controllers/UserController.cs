@@ -30,7 +30,7 @@ namespace WebApplication2.Controllers
         }
         [HttpGet("{id}")]
         [Produces(typeof(CountryReadDto))]
-        public IActionResult Get(int id)
+        public IActionResult Get(string id)
         {
             var user = _mapper.Map<UserReadDto>(_repo.GetUser(id));
             if(user == null)
@@ -48,7 +48,7 @@ namespace WebApplication2.Controllers
         }
 
         [HttpPatch]
-        public IActionResult Patch(int id, JsonPatchDocument<UserCreateDto> patchDoc)
+        public IActionResult Patch(string id, JsonPatchDocument<UserCreateDto> patchDoc)
         {
             var userFromRepo = _repo.GetUser(id);
             if (userFromRepo == null)

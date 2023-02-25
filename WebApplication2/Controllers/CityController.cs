@@ -24,8 +24,7 @@ namespace WebApplication2.Controllers
         [Produces(typeof(CityReadDto))]
         public IActionResult getAllcities()
         {
-            var cities = _mapper.Map<IEnumerable<CityReadDto>> (_repo.GetAll());
-
+            var cities = _mapper.Map<IEnumerable<CityReadDto>>(_repo.GetAll());
             return Ok(cities);
         }
         [Produces(typeof(CityReadDto))]
@@ -86,7 +85,9 @@ namespace WebApplication2.Controllers
         var city = _repo.GetCity(id);
             if(!city.eventsAtCity.IsNullOrEmpty())
             {
-                return BadRequest(city.eventsAtCity);
+                _repo.Delete(city);
+                return NoContent();
+               
             }
             else
             {
@@ -94,7 +95,6 @@ namespace WebApplication2.Controllers
 
              return NoContent();
             }
+        }
     }
-
-}
 }

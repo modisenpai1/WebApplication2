@@ -12,6 +12,12 @@ namespace WebApplication2.Domain.DTOs
         public int countryId { get; set; }
         public int cityId { get; set; }
     }
+    public class UserRefrenceDto 
+    {
+        public Guid id { get; set; }
+        public string userName { get; set; }
+    }
+
     public class UserReadDto
     {
         public Guid Id { get; set; }

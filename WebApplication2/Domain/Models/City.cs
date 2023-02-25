@@ -26,7 +26,7 @@ namespace WebApplication2.Domain.Models
         public Country country { get; set; } 
         public ICollection<User> UserInCity { get; set; }
     
-       public ICollection<Event> eventsAtCity { get; set; }
+        public ICollection<Event> eventsAtCity { get; set; }
 
        
 

@@ -30,6 +30,7 @@ namespace WebApplication2.Services
             return _repo.Table.Include(x =>x.city).
                 Include(x=>x.UserOrgs).
                 Include(x=>x.EventUsers).
+                ThenInclude(u=>u.Event).
                 ToList();
         }
 

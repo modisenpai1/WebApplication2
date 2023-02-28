@@ -27,9 +27,9 @@ namespace WebApplication2.Services
 
         public IEnumerable<User> GetAll()
         {
-            return _repo.Table.Include(x =>x.city).
-                Include(x=>x.UserOrgs).
-                Include(x=>x.EventUsers).
+            return _repo.Table.Include(x =>x.city).Include(m=>m.Country).
+                Include(y=>y.UserOrgs).
+                Include(z=>z.EventUsers).
                 ThenInclude(u=>u.Event).
                 ToList();
         }

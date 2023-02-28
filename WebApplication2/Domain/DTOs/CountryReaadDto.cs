@@ -9,7 +9,7 @@ namespace WebApplication2.Domain.DTOs
         public int Id { get; set; }
         public string Name { get; set; }
         public ICollection<CityReadDtoCityCountry> Cities { get; set; }
-      
+         public ICollection<UserReadDto> users { get; set; }    
 
     }
 }

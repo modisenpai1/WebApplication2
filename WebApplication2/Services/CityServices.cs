@@ -31,8 +31,8 @@ namespace WebApplication2.Services
         public IEnumerable<City> GetAll()
         {
             return _repo.Table.Include(x=>x.country)
-                .Include(x => x.UserInCity)
-                .Include(x=>x.eventsAtCity)
+                .Include(y => y.UserInCity)
+                .Include(z=>z.eventsAtCity)
                 .ToList();
         }
 
@@ -41,8 +41,8 @@ namespace WebApplication2.Services
             
             var city = _repo.Table.Include(X => X.country)
                 .Include(x=>x.UserInCity)
-                .Include(x => x.eventsAtCity)
-                .FirstOrDefault(x => x.Id == id);
+                .Include(y => y.eventsAtCity)
+                .FirstOrDefault(z => z.Id == id);
       
             return city;
         }

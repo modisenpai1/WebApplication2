@@ -15,8 +15,8 @@ namespace WebApplication2.Services
         }
 
         public IEnumerable<Country> GetAllCountries() {
-            return _repo.Table.Include(x => x.Cities).ToList();
-        }
+            return _repo.Table.Include(x => x.Cities).Include(y => y.UsersInCountry).ToList();
+                }
 
         public void AddCountry(Country country)
         {

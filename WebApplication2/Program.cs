@@ -17,9 +17,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
                     //T-Work
                     //"server=PHOTOSHOP-PC\\SQLEXPRESS;initial catalog=webapp2;user id=test;password=test123;trustservercertificate=true;"
                     //T-Home
-                    "server=desktop-itl4gju\\sqlexpress;initial catalog=eventapi;user id=myapi;password=thispassword;trustservercertificate=true;"
+                    //"server=desktop-itl4gju\\sqlexpress;initial catalog=eventapi;user id=myapi;password=thispassword;trustservercertificate=true;"
                     //modi
-                    //"Server=localhost;Database=EventsAppDb;User Id=sa;Password=admin;Trusted_Connection=true;Encrypt=False;"
+                    "Server=localhost;Database=EventsAppDb;User Id=sa;Password=admin;Trusted_Connection=true;Encrypt=False;"
                     ,
                     sqlServerOptions => sqlServerOptions.CommandTimeout(420)), ServiceLifetime.Transient);
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)

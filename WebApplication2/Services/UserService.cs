@@ -48,7 +48,8 @@ namespace WebApplication2.Services
 
         public void Update(User user)
         {
-            throw new NotImplementedException();
+            _repo.UpdateItem(user);
+            _repo.SaveChanges();
         }
     }
 }

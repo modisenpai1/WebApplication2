@@ -10,15 +10,18 @@ namespace WebApplication2.Domain.Models
         public int Id { get; set; }
         public string FacebookLink { get; set; }
         public string TwitterLink{ get; set; }
+
         public string InstagramLink { get; set; }
         [Phone]
         public string phoneNumber { get; set; }
+        [EmailAddress]
         public string Email { get; set; }
         public string Name { get; set; }
         public string Discription { get; set; } 
         public ICollection<Event> Events { get; set; }
         public ICollection<Adress> Adresses  { get; set; }
        public ICollection<UserOrg> UserOrgs { get; set; }
+
         public Orginization()
         {
             

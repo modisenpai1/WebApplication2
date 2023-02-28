@@ -26,13 +26,14 @@ namespace WebApplication2.Controllers
         [Produces(typeof(CityReadDto))]
         public IActionResult getAllcities()
         {
-            var cities = _mapper.Map<IEnumerable<CityReadDto>>(_repo.GetAll());
+            var citiesBefor = _repo.GetAll();
+            var cities = _mapper.Map<IEnumerable<CityReadDto>>(citiesBefor);
             return Ok(cities);
         }
 
 
         [Produces(typeof(CityReadDto))]
-        [HttpGet("{id}", Name = "GetgetCityById")]
+        [HttpGet("{id}")]
         public IActionResult getCityById(int id)
         {
 
@@ -81,17 +82,16 @@ namespace WebApplication2.Controllers
     public IActionResult DeleteCity(int id)
     {
             var city = _repo.GetCity(id);
-            if(city.eventsAtCity.IsNullOrEmpty() || city.UserInCity.IsNullOrEmpty())
+            if(city.eventsAtCity.Count()>0 || city.UserInCity.Count()>0)
             {
-                _repo.Delete(city);
-                return NoContent();
-               
+                var events = _mapper.Map<IEnumerable<EventReadDto>>(city.eventsAtCity);
+                var users = _mapper.Map<IEnumerable<UserRefrenceDto>>(city.UserInCity);
+                return BadRequest("the entity can't be deleted as it's in use in:\n" + users.ToList() + "\n" + events.ToList());
             }
             else
             {
-                var events=_mapper.Map<IEnumerable<EventReadDto>>(city.eventsAtCity);
-                var users = _mapper.Map<IEnumerable<UserRefrenceDto>>(city.UserInCity);
-             return BadRequest("the entity can't be deleted as it's in use in:\n"+users+"\n"+events);
+                _repo.Delete(city);
+                return NoContent();
             }
         }
     }

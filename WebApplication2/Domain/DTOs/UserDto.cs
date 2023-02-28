@@ -14,7 +14,7 @@ namespace WebApplication2.Domain.DTOs
     }
     public class UserRefrenceDto 
     {
-        public string id { get; set; }
+        public Guid id { get; set; }
         public string userName { get; set; }
     }
 
@@ -26,7 +26,7 @@ namespace WebApplication2.Domain.DTOs
         public DateTime BirthDate { get; set; }
         public CountryReadDto country { get; set; }
         public CityReadDto city { get; set; }
-        public ICollection<UserEventDto> EventUsers { get; set; }
+        public ICollection<UserEventReadDto> EventUsers { get; set; }
         //public ICollection<UserOrg> UserOrgs { get; set; }
 
     }

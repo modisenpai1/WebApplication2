@@ -33,6 +33,7 @@ builder.Services.AddScoped(typeof(IAppRepo<>), typeof(AppRepo<>));
 builder.Services.AddScoped<ICountryServices, CountryServices>();
 builder.Services.AddScoped<ICityServices, CityServices>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserOrgService, UserOrgService>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

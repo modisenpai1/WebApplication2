@@ -30,13 +30,19 @@ namespace WebApplication2.Services
 
         public IEnumerable<City> GetAll()
         {
-            return _repo.Table.Include(x=>x.country).ToList();
+            return _repo.Table.Include(x=>x.country)
+                .Include(x => x.UserInCity)
+                .Include(x=>x.eventsAtCity)
+                .ToList();
         }
 
         public City GetCity(int id)
         {   
             
-            var city = _repo.Table.Include(X => X.country).FirstOrDefault(x => x.Id == id);
+            var city = _repo.Table.Include(X => X.country)
+                .Include(x=>x.UserInCity)
+                .Include(x => x.eventsAtCity)
+                .FirstOrDefault(x => x.Id == id);
       
             return city;
         }

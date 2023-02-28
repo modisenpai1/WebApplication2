@@ -30,14 +30,20 @@ namespace WebApplication2.Services
             return _repo.Table.Include(x =>x.city).
                 Include(x=>x.UserOrgs).
                 Include(x=>x.EventUsers).
+                ThenInclude(u=>u.Event).
                 ToList();
         }
 
         public User GetUser(string key)
         {
+
+#pragma warning disable CS8603 // Possible null reference return.
             return _repo.Table.Include(x => x.city).
                 Include(x => x.UserOrgs).
-                Include(x => x.EventUsers).FirstOrDefault(x=>x.Id==key);
+                Include(x => x.EventUsers).
+                FirstOrDefault(x=>x.Id==key);
+#pragma warning restore CS8603 // Possible null reference return.
+
         }
 
         public void Update(User user)

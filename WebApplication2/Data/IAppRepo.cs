@@ -1,6 +1,4 @@
-﻿using WebApplication2.Domain.Models;
-
-namespace WebApplication2.Data
+﻿namespace WebApplication2.Data
 {
     public interface IAppRepo<TEntity> where TEntity : class
     {

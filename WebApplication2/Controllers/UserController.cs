@@ -23,13 +23,13 @@ namespace WebApplication2.Controllers
             _repo = repo;
         }
         [HttpGet]
-        [Produces(typeof(IEnumerable<CountryReadDto>))]
+        [Produces(typeof(IEnumerable<UserReadDto>))]
         public IActionResult Get() 
         {
             return Ok(_mapper.Map<IEnumerable<UserReadDto>>(_repo.GetAll()));
         }
         [HttpGet("{id}")]
-        [Produces(typeof(CountryReadDto))]
+        [Produces(typeof(UserReadDto))]
         public IActionResult Get(string id)
         {
             var user = _mapper.Map<UserReadDto>(_repo.GetUser(id));

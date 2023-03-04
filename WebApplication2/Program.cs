@@ -34,12 +34,8 @@ builder.Services.AddScoped<ICountryServices, CountryServices>();
 builder.Services.AddScoped<ICityServices, CityServices>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserOrgService, UserOrgService>();
-<<<<<<< HEAD
 builder.Services.AddScoped<IOrgenizationServices,OrgenizationServices>();
-
-=======
 builder.Services.AddScoped<IEventService, EventService>();
->>>>>>> 57f5239da266ce8562ed0a25c6ceaf9f6a308404
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

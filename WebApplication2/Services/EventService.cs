@@ -26,10 +26,11 @@ namespace WebApplication2.Services
 
         public IEnumerable<Event> GetAll()
         {
-            return _repo.Table.Include(x=>x.Adress)
-                .Include(x=>x.City)
-                .Include(x=>x.EventUsers)
-                .Include(x=>x.Orginization)
+            return _repo.Table.Include(x => x.Adress)
+                .Include(x => x.City)
+                .ThenInclude(y => y.country)
+                .Include(x => x.EventUsers)
+                .Include(x => x.Orginization)
                 .ToList();
         }
 
@@ -37,6 +38,7 @@ namespace WebApplication2.Services
         {
             return _repo.Table.Include(x => x.Adress)
                 .Include(x => x.City)
+                .ThenInclude(y=>y.country)
                 .Include(x => x.EventUsers)
                 .Include(x => x.Orginization)
                 .FirstOrDefault(x => x.Id == id);

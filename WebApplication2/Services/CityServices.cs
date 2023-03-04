@@ -39,12 +39,12 @@ namespace WebApplication2.Services
         public City GetCity(int id)
         {   
             
-            var city = _repo.Table.Include(X => X.country)
+            return _repo.Table.Include(X => X.country)
                 .Include(x=>x.UserInCity)
                 .Include(y => y.eventsAtCity)
                 .FirstOrDefault(z => z.Id == id);
       
-            return city;
+            
         }
 
         public void Update(City city)

@@ -22,9 +22,5 @@ namespace WebApplication2.Domain.Models
             Events=new List<Event>();
         }
 
-        
-
-
-
     }
 }

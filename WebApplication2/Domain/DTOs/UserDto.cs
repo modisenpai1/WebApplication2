@@ -27,7 +27,7 @@ namespace WebApplication2.Domain.DTOs
         public CountryReadDto country { get; set; }
         public CityReadDto city { get; set; }
         public ICollection<UserEventReadDto> EventUsers { get; set; }
-        //public ICollection<UserOrg> UserOrgs { get; set; }
+        public ICollection<UserOrgReadDto> UserOrgs { get; set; }
 
     }
 }

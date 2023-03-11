@@ -67,9 +67,13 @@ namespace WebApplication2.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(string id)
         {
-            return Ok();
+            var user=_repo.GetUser(id);
+            if (user == null)
+            { return NotFound(); }
+            _repo.Delete(user);
+            return NoContent();
         }
 
     }

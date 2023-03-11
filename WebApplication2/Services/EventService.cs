@@ -44,6 +44,25 @@ namespace WebApplication2.Services
                 .FirstOrDefault(x => x.Id == id);
         }
 
+        public IEnumerable<Event> Search(string name, City city)
+        {
+            IQueryable<Event> Query = _repo.Table.Include(x => x.Adress)
+                 .Include(x => x.City)
+                 .ThenInclude(y => y.country)
+                 .Include(x => x.EventUsers)
+                 .Include(x => x.Orginization)
+                 ;
+            if(!string.IsNullOrEmpty(name))
+            {
+                Query = Query.Where(e=>e.Title== name);
+            }
+            if(city!=null)
+            {
+                Query = Query.Where(e=>e.City== city);
+            }
+            return Query.ToList();
+        }
+
         public void Update(Event evnt)
         {
             _repo.UpdateItem(evnt);

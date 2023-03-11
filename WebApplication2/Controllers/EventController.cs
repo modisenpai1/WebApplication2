@@ -27,6 +27,19 @@ namespace WebApplication2.Controllers
             var events = _mapper.Map<IEnumerable<EventReadDto>>(_repo.GetAll());
             return Ok(events);
         }
+        [HttpGet("{search}")]
+        [Produces(typeof(EventReadDto))]
+        public IActionResult SearchEvents(string name,CityReadDto cityReadDto) {
+            var city = _mapper.Map<City>(cityReadDto);
+            var resualts = _repo.Search(name,city);
+            if (resualts.Any())
+            {
+                return Ok(_mapper.Map<IEnumerable<EventReadDto>>(resualts));
+            }
+            else { return NotFound(); }
+               
+        
+        }
 
 
         [Produces(typeof(EventReadDto))]

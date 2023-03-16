@@ -8,10 +8,11 @@ namespace WebApplication2.Domain.Models
     {
         [Key]
         public int Id { get; set; }
-        public string FacebookLink { get; set; }
-        public string TwitterLink{ get; set; }
+        public string? FacebookLink { get; set; }
+        public string? TwitterLink{ get; set; }
 
-        public string InstagramLink { get; set; }
+        public string? InstagramLink { get; set; }
+        public string? ImgPath { get; set; }
         [Phone]
         public string phoneNumber { get; set; }
         [EmailAddress]

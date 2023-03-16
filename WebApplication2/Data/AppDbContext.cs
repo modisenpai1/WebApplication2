@@ -10,8 +10,6 @@ namespace WebApplication2.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> opt) : base(opt)
         {
-            Users.Include(u => u.city).Load();
-            Cities.Include(u => u.UserInCity).Load();
 
 
         }
@@ -20,17 +18,42 @@ namespace WebApplication2.Data
             base.OnConfiguring(optionsBuilder);
 
 
+
        
 
         }
-        protected override void OnModelCreating(ModelBuilder modelBuiler)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
 
         {
+            base.OnModelCreating(modelBuilder);
 
-            base.OnModelCreating(modelBuiler);
-            modelBuiler.Entity<Event>().HasOne(e => e.Adress).WithMany(a => a.Events).HasForeignKey("AdressId").OnDelete(DeleteBehavior.NoAction);
-            modelBuiler.Entity<User>().HasOne(u => u.Country).WithMany(c => c.UsersInCountry).HasForeignKey("CountryId").OnDelete(DeleteBehavior.Restrict);
-            modelBuiler.Entity<User>().HasOne(u => u.city).WithMany(c => c.UserInCity).HasForeignKey("CityId").OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Event>()
+                .HasOne(e => e.Adress)
+                .WithMany(a => a.Events)
+                .HasForeignKey("AdressId")
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Country)
+                .WithMany(c => c.UsersInCountry)
+                .HasForeignKey("CountryId")
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.city)
+                .WithMany(c => c.UserInCity)
+                .HasForeignKey("CityId")
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Country>()
+                .HasMany(u => u.Adresses)
+                .WithOne(c => c.Country)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Adress>()
+                .HasOne(u => u.Country)
+                .WithMany(c => c.Adresses)
+                .OnDelete(DeleteBehavior.Restrict);
 
         }
 

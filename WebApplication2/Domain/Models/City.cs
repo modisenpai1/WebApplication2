@@ -14,6 +14,7 @@ namespace WebApplication2.Domain.Models
            
             UserInCity = new List<User>();
             eventsAtCity= new List<Event>();
+            adresses = new List<Adress>();
 
         }
        
@@ -27,10 +28,7 @@ namespace WebApplication2.Domain.Models
         public ICollection<User> UserInCity { get; set; }
     
         public ICollection<Event> eventsAtCity { get; set; }
-
-       
-
-
+        public ICollection<Adress> adresses { get; set; }
     }
 
 }

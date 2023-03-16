@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebApplication2.Migrations
 {
     /// <inheritdoc />
-    public partial class intit : Migration
+    public partial class inti : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -44,9 +44,10 @@ namespace WebApplication2.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FacebookLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TwitterLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    InstagramLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FacebookLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TwitterLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InstagramLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImgPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     phoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -104,6 +105,8 @@ namespace WebApplication2.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CityId = table.Column<int>(type: "int", nullable: false),
+                    CountryId = table.Column<int>(type: "int", nullable: false),
                     Adress1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AdditionalInfo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
@@ -113,6 +116,17 @@ namespace WebApplication2.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Adresses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Adresses_Cities_CityId",
+                        column: x => x.CityId,
+                        principalTable: "Cities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Adresses_Countries_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Countries",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Adresses_orginizations_OrginizationId",
                         column: x => x.OrginizationId,
@@ -170,6 +184,7 @@ namespace WebApplication2.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImgPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -339,6 +354,16 @@ namespace WebApplication2.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Adresses_CityId",
+                table: "Adresses",
+                column: "CityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Adresses_CountryId",
+                table: "Adresses",
+                column: "CountryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Adresses_OrginizationId",

@@ -10,8 +10,6 @@ namespace WebApplication2.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> opt) : base(opt)
         {
-            Users.Include(u => u.city).Load();
-            Cities.Include(u => u.UserInCity).Load();
 
 
         }

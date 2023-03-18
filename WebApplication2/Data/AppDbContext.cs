@@ -25,7 +25,10 @@ namespace WebApplication2.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
 
         {
+
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfiguration(new RoleConfigrations());
 
             modelBuilder.Entity<Event>()
                 .HasOne(e => e.Adress)

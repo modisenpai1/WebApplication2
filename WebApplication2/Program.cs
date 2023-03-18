@@ -22,8 +22,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
                     //"Server=localhost;Database=EventsAppDb;User Id=sa;Password=admin;Trusted_Connection=true;Encrypt=False;"
                     ,
                     sqlServerOptions => sqlServerOptions.CommandTimeout(420)), ServiceLifetime.Transient);
+
+
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
+
+
 builder.Services.AddControllers().AddNewtonsoftJson(s =>
 {
     s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();

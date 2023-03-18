@@ -61,7 +61,7 @@ namespace WebApplication2.Controllers
             {
                 var user = _mapper.Map<User>(userRegisterDto);
                 user.UserName = userRegisterDto.email;
-                var result=await _userManager.CreateAsync(user);
+                var result=await _userManager.CreateAsync(user,userRegisterDto.password);
                 if(!result.Succeeded)
                 {
                     foreach (var error in result.Errors)
@@ -70,11 +70,12 @@ namespace WebApplication2.Controllers
                     }
                     return BadRequest(ModelState);
                 }
+                await _userManager.AddToRolesAsync(user, userRegisterDto.Roles);
                 return Accepted();
             }
             catch(Exception ex)
             {
-                return Problem($"somthing went wrong in the {nameof(Register)}",statusCode:500);
+                return Problem($"somthing went wrong in the {nameof(Register)}  {ex}",statusCode:500);
             }
         }
         //[HttpPost]

@@ -12,6 +12,7 @@ namespace WebApplication2.Domain.DTOs
         public DateTime BirthDate { get; set; }
         public int countryId { get; set; }
         public int cityId { get; set; }
+        public ICollection<string> Roles { get; set; }
     }
     public class UserLoginDto
     {

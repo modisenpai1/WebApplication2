@@ -11,22 +11,30 @@ namespace WebApplication2.Data
             CreateMap<CityCreateDto,City>().ReverseMap();
             CreateMap<City,CityReadDto>().ReverseMap();
             CreateMap<City, CityRefDto>().ReverseMap();
+
             CreateMap<Country,CountryRefDto>().ReverseMap();
             CreateMap<Country, CountryReadDto>().ReverseMap();
             CreateMap<CountryCreateDto, Country>().ReverseMap();
-            CreateMap<User, UserCreateDto>().ReverseMap();
+
+            CreateMap<User, UserRegisterDto>().ReverseMap();
             CreateMap<User, UserReadDto>().ReverseMap();
             CreateMap<User, UserRefrenceDto>().ReverseMap();
+            CreateMap<User, UserLoginDto>().ReverseMap();
+
             CreateMap<Event,EventReadDto>().ReverseMap();
             CreateMap<EventCreateDto, Event>().ReverseMap();
             CreateMap<EventRefDto, Event>().ReverseMap();
+
             CreateMap<UserEventReadDto,EventUser>().ReverseMap();
             CreateMap<EventUserReadDto,EventUser>().ReverseMap();
+
             CreateMap<OrganizationRefDto,Orginization>().ReverseMap();
             CreateMap<OrginizationReadDtos, Orginization>().ReverseMap();
             CreateMap<Orginization, OrginizationCreateDto>().ReverseMap();
+
             CreateMap<UserOrgCreateDto,UserOrg>().ReverseMap();
             CreateMap<UserOrgReadDto, UserOrg>().ReverseMap();
+
             CreateMap<AddressRefDto,Adress>().ReverseMap();
         }
     }

@@ -50,5 +50,4 @@ namespace WebApplication2.Domain.DTOs
     }
 
 
-
 }

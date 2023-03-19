@@ -17,14 +17,14 @@ namespace WebApplication2.Controllers
         private readonly IMapper _mapper;
         private readonly IUserService _repo;
         private readonly UserManager<User> _userManager;
-        //private readonly SignInManager<User> _signInManager;
+        private readonly IAuthManager _authManager;
 
-        public UserController(IUserService repo, IMapper mapper, UserManager<User> userManager)
+        public UserController(IUserService repo, IMapper mapper, UserManager<User> userManager,IAuthManager authManager)
         {
             _mapper = mapper;
             _repo = repo;
             _userManager = userManager;
-            //_signInManager = signInManager;
+            _authManager=authManager;
         }
 
 
@@ -78,29 +78,29 @@ namespace WebApplication2.Controllers
                 return Problem($"somthing went wrong in the {nameof(Register)}  {ex}",statusCode:500);
             }
         }
-        //[HttpPost]
-        //[Route("login")]
-        //public async Task<IActionResult> Login(UserLoginDto userLoginDto)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-        //    try
-        //    {
-               
-        //        var result = await _signInManager.PasswordSignInAsync(userLoginDto.email,userLoginDto.password,false,false);
-        //        if (!result.Succeeded)
-        //        {
-        //            return Unauthorized(userLoginDto);
-        //        }
-        //        return Accepted();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Problem($"somthing went wrong in the {nameof(Register)}", statusCode: 500);
-        //    }
-        //}
+        [HttpPost]
+        [Route("login")]
+        public async Task<IActionResult> Login(UserLoginDto userLoginDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+
+
+                if (!await _authManager.AuthenticateUser(userLoginDto))
+                {
+                    return Unauthorized(userLoginDto);
+                }
+                return Accepted(new {Token = await _authManager.CreateToken()});
+            }
+            catch (Exception ex)
+            {
+                return Problem($"somthing went wrong in the {nameof(Register)}", statusCode: 500);
+            }
+        }
 
 
         [HttpPatch]

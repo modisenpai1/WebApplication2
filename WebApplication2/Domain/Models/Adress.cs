@@ -8,6 +8,12 @@ namespace WebApplication2.Domain.Models
     {
         [Key]
         public int Id { get; set; }
+        public int CityId { get; set; }
+        [ForeignKey("CityId")]
+        public City City { get; set; }
+        public int CountryId { get; set; }
+        [ForeignKey("CountryId")]
+        public Country Country { get; set; }
         public string Adress1 { get; set; }
         public string AdditionalInfo { get; set; }
         public bool isActive { get; set; } 

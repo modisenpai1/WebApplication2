@@ -10,10 +10,12 @@ namespace WebApplication2.Domain.Models
         public string Name { get; set; }
         public ICollection<City> Cities { get; set; }
         public ICollection<User> UsersInCountry { get; set; }
+        public ICollection<Adress> Adresses { get; set; }
         public Country()
         {
             Cities= new List<City>();
             UsersInCountry= new List<User>();
+            Adresses= new List<Adress>();
             
         }
 

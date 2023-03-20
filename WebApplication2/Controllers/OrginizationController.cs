@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication2.Domain.DTOs;
@@ -27,7 +28,8 @@ namespace WebApplication2.Controllers
         }
         [HttpGet("{id}")]
         [Produces(typeof(OrginizationReadDtos))]
-        public IActionResult GetById(int id)
+        [Authorize]
+        public IActionResult GetByIdAsync(int id)
         {
             var Org = _mapper.Map<OrginizationReadDtos>(_repo.GetOrginzation(id));
             if (    Org == null)

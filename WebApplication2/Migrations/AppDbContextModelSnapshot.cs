@@ -47,6 +47,20 @@ namespace WebApplication2.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "73c8c181-e8b7-40d8-a2e5-fb144d0f7ae1",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = "51e493f1-6b72-4c81-b40b-6575043b42cf",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -248,6 +262,12 @@ namespace WebApplication2.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -259,6 +279,10 @@ namespace WebApplication2.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("CountryId");
 
                     b.HasIndex("OrginizationId");
 
@@ -325,6 +349,9 @@ namespace WebApplication2.Migrations
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ImgPath")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsOnline")
                         .HasColumnType("bit");
@@ -401,11 +428,12 @@ namespace WebApplication2.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FacebookLink")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImgPath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("InstagramLink")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -413,7 +441,6 @@ namespace WebApplication2.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TwitterLink")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("phoneNumber")
@@ -520,11 +547,27 @@ namespace WebApplication2.Migrations
 
             modelBuilder.Entity("WebApplication2.Domain.Models.Adress", b =>
                 {
+                    b.HasOne("WebApplication2.Domain.Models.City", "City")
+                        .WithMany("adresses")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApplication2.Domain.Models.Country", "Country")
+                        .WithMany("Adresses")
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("WebApplication2.Domain.Models.Orginization", "Orginization")
                         .WithMany("Adresses")
                         .HasForeignKey("OrginizationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("City");
+
+                    b.Navigation("Country");
 
                     b.Navigation("Orginization");
                 });
@@ -633,11 +676,15 @@ namespace WebApplication2.Migrations
                 {
                     b.Navigation("UserInCity");
 
+                    b.Navigation("adresses");
+
                     b.Navigation("eventsAtCity");
                 });
 
             modelBuilder.Entity("WebApplication2.Domain.Models.Country", b =>
                 {
+                    b.Navigation("Adresses");
+
                     b.Navigation("Cities");
 
                     b.Navigation("UsersInCountry");

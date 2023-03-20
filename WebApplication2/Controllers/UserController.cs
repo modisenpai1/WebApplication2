@@ -16,18 +16,26 @@ namespace WebApplication2.Controllers
        
         private readonly IMapper _mapper;
         private readonly IUserService _repo;
+        private readonly UserManager<User> _userManager;
+        private readonly IAuthManager _authManager;
 
-        public UserController(IUserService repo, IMapper mapper)
+        public UserController(IUserService repo, IMapper mapper, UserManager<User> userManager,IAuthManager authManager)
         {
             _mapper = mapper;
             _repo = repo;
+            _userManager = userManager;
+            _authManager=authManager;
         }
+
+
         [HttpGet]
         [Produces(typeof(IEnumerable<UserReadDto>))]
         public IActionResult Get() 
         {
             return Ok(_mapper.Map<IEnumerable<UserReadDto>>(_repo.GetAll()));
         }
+
+
         [HttpGet("{id}")]
         [Produces(typeof(UserReadDto))]
         public IActionResult Get(string id)
@@ -39,23 +47,71 @@ namespace WebApplication2.Controllers
             }
             return Ok(user);
         }
+
+
         [HttpPost]
-        public IActionResult Create(UserCreateDto userCreatDto)
+        [Route("register")]
+        public async Task<IActionResult> Register(UserRegisterDto userRegisterDto)
         {
-            var user = _mapper.Map<User>(userCreatDto);
-            _repo.AddUser(user);
-            return NoContent();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var user = _mapper.Map<User>(userRegisterDto);
+                user.UserName = userRegisterDto.email;
+                var result=await _userManager.CreateAsync(user,userRegisterDto.password);
+                if(!result.Succeeded)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(error.Code, error.Description);
+                    }
+                    return BadRequest(ModelState);
+                }
+                await _userManager.AddToRolesAsync(user, userRegisterDto.Roles);
+                return Accepted();
+            }
+            catch(Exception ex)
+            {
+                return Problem($"somthing went wrong in the {nameof(Register)}  {ex}",statusCode:500);
+            }
+        }
+        [HttpPost]
+        [Route("login")]
+        public async Task<IActionResult> Login(UserLoginDto userLoginDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+
+
+                if (!await _authManager.AuthenticateUser(userLoginDto))
+                {
+                    return Unauthorized(userLoginDto);
+                }
+                return Accepted(new {Token = await _authManager.CreateToken()});
+            }
+            catch (Exception ex)
+            {
+                return Problem($"somthing went wrong in the {nameof(Register)}", statusCode: 500);
+            }
         }
 
+
         [HttpPatch]
-        public IActionResult Patch(string id, JsonPatchDocument<UserCreateDto> patchDoc)
+        public IActionResult Patch(string id, JsonPatchDocument<UserRegisterDto> patchDoc)
         {
             var userFromRepo = _repo.GetUser(id);
             if (userFromRepo == null)
             {
                 return NotFound();
             }
-            var userToPatch = _mapper.Map<UserCreateDto>(userFromRepo);
+            var userToPatch = _mapper.Map<UserRegisterDto>(userFromRepo);
             patchDoc.ApplyTo(userToPatch, ModelState);
             if (!TryValidateModel(userToPatch))
             {
@@ -65,6 +121,7 @@ namespace WebApplication2.Controllers
             _repo.Update(userFromRepo);
             return NoContent();
         }
+
 
         [HttpDelete]
         public IActionResult Delete(string id)

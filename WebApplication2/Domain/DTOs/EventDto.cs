@@ -6,6 +6,7 @@ namespace WebApplication2.Domain.DTOs
     public class EventCreateDto
     {
         public string Title { get; set; }
+        public string? ImgPath { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public string Description { get; set; }
@@ -23,6 +24,7 @@ namespace WebApplication2.Domain.DTOs
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        public string? ImgPath { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public string Description { get; set; }
@@ -40,12 +42,12 @@ namespace WebApplication2.Domain.DTOs
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        public string? ImgPath { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public string Description { get; set; }
         public Accessibality accessibality { get; set; }
     }
-
 
 
 }

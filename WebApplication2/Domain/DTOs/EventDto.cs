@@ -14,7 +14,7 @@ namespace WebApplication2.Domain.DTOs
         public string? Link { get; set; }
         public bool hasMaxCap { get; set; }
         public int? MaxCap { get; set; }
-        public int AdressId { get; set; }
+        public int? AdressId { get; set; }
         public int OrginizationId { get; set; }
         public int CityId { get; set; }
     }

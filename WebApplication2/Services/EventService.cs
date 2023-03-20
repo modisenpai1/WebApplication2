@@ -44,7 +44,7 @@ namespace WebApplication2.Services
                 .FirstOrDefault(x => x.Id == id);
         }
 
-        public IEnumerable<Event> Search(string name, City city)
+        public IEnumerable<Event> Search(string name,City city)
         {
             IQueryable<Event> Query = _repo.Table.Include(x => x.Adress)
                  .Include(x => x.City)

@@ -20,7 +20,7 @@ namespace WebApplication2.Domain.Models
         public string Link { get; set; }
         public bool hasMaxCap { get; set; }
         public int MaxCap { get; set; }
-        public int? AdressId { get; set; }
+        public int? AdressId{ get; set; }
         public ICollection<EventUser> EventUsers { get; set; }
         [ForeignKey("AdressId")]
         public Adress Adress { get; set; }

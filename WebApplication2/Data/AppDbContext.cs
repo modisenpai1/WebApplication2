@@ -35,7 +35,7 @@ namespace WebApplication2.Data
         }
 
 
-
+       
         public DbSet<Event> Events { get; set; }
         public DbSet<Adress> Adresses { get; set; }
         public DbSet<Orginization> orginizations { get; set; }

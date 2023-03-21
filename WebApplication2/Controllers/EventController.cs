@@ -31,16 +31,14 @@ namespace WebApplication2.Controllers
 
         [HttpGet("{search}")]
         [Produces(typeof(EventReadDto))]
-        public IActionResult SearchEvents(string name, CityReadDtoCityCountry cityReadDto) {
-            var city = _mapper.Map<City>(cityReadDto);
+        public IActionResult SearchEvents(string name,  CityRefDto cityRefDto) {
+            var city = _mapper.Map<City>(cityRefDto);
             var resualts = _repo.Search(name,city);
             if (resualts.Any())
             {
                 return Ok(_mapper.Map<IEnumerable<EventReadDto>>(resualts));
             }
             else { return NotFound(); }
-               
-        
         }
 
 

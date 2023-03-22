@@ -6,12 +6,13 @@ namespace WebApplication2.Domain.DTOs
     {
         public string UserId { get; set; }
         public int OrginizationId { get; set; }
-        public Role role { get; set; }
+        public OrgRole role { get; set; }
     }
     public class UserOrgReadDto
     {
+        public int Id { get; set; }
         public UserRefrenceDto user { get; set; }
         public OrganizationRefDto organization { get; set; }
-        public Role role { get; set; }
+        public OrgRole role { get; set; }
     }
 }

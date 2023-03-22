@@ -10,9 +10,9 @@ namespace WebApplication2.Services
         IEnumerable<Orginization> getAllorginizations();
         Orginization GetOrginzation(int id);
         bool SaveChanges();
-
-
-
+        void AddOrgUser(UserOrg userOrg);
+        void UpdateRole(UserOrg userOrg);
+        UserOrg GetOrgUser(int orgId,string userId);
 
     }
 } 

@@ -15,9 +15,9 @@ namespace WebApplication2.Domain.Models
         public int EventId { get; set; }
         public Event Event { get; set; }
         public DateTime NotifyMe { get; set; }
-        public Role role { get; set; }
+        public EventRole role { get; set; }
             }                                                                       
-    public enum Role { 
+    public enum EventRole { 
             EventCreator=1,
             EventParticpant=0  
     }

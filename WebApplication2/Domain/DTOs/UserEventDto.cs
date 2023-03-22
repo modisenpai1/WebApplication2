@@ -7,19 +7,19 @@ namespace WebApplication2.Domain.DTOs
         public int EventId { get; set; }
         public EventRefDto Event { get; set; }
         public DateTime NotifyMe { get; set; }
-        public Role role { get; set; }
+        public EventRole role { get; set; }
     }
     public class EventUserReadDto 
     {
         public UserRefrenceDto User { get; set; }
         public DateTime NotifyMe { get; set; }
-        public Role role { get; set; }
+        public EventRole role { get; set; }
     }
     public class EventUserCreateDto
     {
         public string UserId { get; set; }
         public int EventId { get; set; }
         public DateTime NotifyMe { get; set; }
-        public Role role { get; set; }
+        public EventRole role { get; set; }
     }
 }

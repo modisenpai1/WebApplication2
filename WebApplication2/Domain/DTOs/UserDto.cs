@@ -6,7 +6,8 @@ namespace WebApplication2.Domain.DTOs
 {
     public class UserRegisterDto:UserLoginDto
     {
-     
+        [Required] 
+        public string UserName { get; set; }
         public string phoneNumber { get; set; }
         [Required]
         public DateTime BirthDate { get; set; }
@@ -25,7 +26,7 @@ namespace WebApplication2.Domain.DTOs
     public class UserRefrenceDto 
     {
         public string id { get; set; }
-        public string userName { get; set; }
+        public string UserName { get; set; }
     }
 
     public class UserReadDto

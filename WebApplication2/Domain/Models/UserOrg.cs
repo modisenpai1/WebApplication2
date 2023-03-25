@@ -10,7 +10,7 @@ namespace WebApplication2.Domain.Models
         public User User { get; set; }
         public int OrginizationId { get; set; }
         public Orginization Orginization { get; set; }
-        public OrgRole role { get; set; }
+        public OrgRole Role { get; set; }
     }
     public enum OrgRole
     {

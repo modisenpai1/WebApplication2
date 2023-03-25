@@ -22,14 +22,10 @@ namespace WebApplication2.Services
             _repo.SaveChanges();
         }
 
-        public void AddOrgUser(UserOrg userOrg)
-        {
-            _UserOrgrepo.AddItem(userOrg);
-        }
 
         public IEnumerable<Orginization> getAllorginizations()
         {
-           return _repo.Table.Include(x => x.Events).Include(x => x.UserOrgs).Include(x => x.Adresses).ToList();
+           return _repo.Table.Include(x => x.Events).Include(x => x.UserOrgs).ThenInclude(y=>y.Orginization).Include(x => x.Adresses).ToList();
         }
 
         public Orginization GetOrginzation(int id)
@@ -37,10 +33,7 @@ namespace WebApplication2.Services
             return _repo.Table.Include(x => x.Events).Include(x => x.UserOrgs).Include(x => x.Adresses).FirstOrDefault(x => x.Id == id);
         }
 
-        public UserOrg GetOrgUser(int orgId,string userId)
-        {
-            return _UserOrgrepo.Table.FirstOrDefault(x => x.UserId == userId && x.OrginizationId == orgId);
-        }
+        
 
         public void removeOrgenization(Orginization orginization)
         {
@@ -57,11 +50,33 @@ namespace WebApplication2.Services
             _repo.UpdateItem(orginization);
         }
 
+
+
+        //userOrg----------------------------------------------------------------------------------------------------------------------------------
+        public UserOrg GetOrgUser(int orgId,string userId)
+        {
+            return _UserOrgrepo.Table.FirstOrDefault(x => x.UserId == userId && x.OrginizationId == orgId);
+        }
+
+
         public void UpdateRole(UserOrg userOrg)
         {
             _UserOrgrepo.UpdateItem(userOrg);
             _UserOrgrepo.SaveChanges();
 
         }
+
+        public void DeleteOrgUser(UserOrg userOrg)
+        {
+            _UserOrgrepo.DeleteItem(userOrg);
+            _UserOrgrepo.SaveChanges() ;
+        }
+
+        public void AddOrgUser(UserOrg userOrg)
+        {
+            _UserOrgrepo.AddItem(userOrg);
+            _UserOrgrepo.SaveChanges();
+        }
+
     }
 }

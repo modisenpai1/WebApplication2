@@ -60,6 +60,8 @@ namespace WebApplication2.Controllers
             try
             {
                 var user = _mapper.Map<User>(userRegisterDto);
+
+                //not sure about the user name situation
                 user.UserName = userRegisterDto.email;
                 var result=await _userManager.CreateAsync(user,userRegisterDto.password);
                 if(!result.Succeeded)

@@ -74,7 +74,7 @@ namespace WebApplication2.Controllers
             {
                 OrginizationId= orginization.Id,
                 UserId = userId,
-                role = OrgRole.Creator
+                Role = OrgRole.Creator
             };
             _repo.AddOrgUser(userOrg);
             _repo.SaveChanges();
@@ -124,23 +124,30 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public IActionResult AddMembers(UserOrgCreateDto userOrgCreateDto)
         {
+            if(userOrgCreateDto.role==OrgRole.Creator)
+            {
+                return Forbid();
+            }
             var userOrg = _mapper.Map<UserOrg>(userOrgCreateDto);
             _repo.AddOrgUser(userOrg);
             return NoContent();
         }
-
+        //[Route("Users")]
         [Authorize]
         [HttpPatch("{id}")]
         public IActionResult ChangeRole(int id,string userId,JsonPatchDocument<UserOrgCreateDto> patchDoc)
         {
-            var RequestMemberId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var RMUserOrg = _repo.GetOrgUser(id, RequestMemberId);
+            //getting the id of the user who made the request
+            var RUId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var RUOrg = _repo.GetOrgUser(id, RUId);
             var userOrgFromRepo = _repo.GetOrgUser(id,userId);
+            //checking if the requesting user has authority for the request
             if (userOrgFromRepo == null)
             {
                 return NotFound();
             }
-            if (RMUserOrg == null || RMUserOrg.role<userOrgFromRepo.role)
+            if (RUOrg == null || RUOrg.Role<userOrgFromRepo.Role)
             {
                 return Unauthorized();
             }
@@ -152,11 +159,34 @@ namespace WebApplication2.Controllers
             {
                 return ValidationProblem(ModelState);
             }
+            //temporary???
+            if(userOrgToPatch.role==OrgRole.Admin)
+            {
+                return Forbid();
+            }
+            
             _mapper.Map(userOrgToPatch, userOrgFromRepo);
+            
             _repo.UpdateRole(userOrgFromRepo);
             return NoContent();
         }
+        //[Route("Users")]
+        //[Authorize]
+        //[HttpDelete("{id}")]
+        //public IActionResult DeleteUserOrg(int id, string userId)
+        //{
 
+        //    var RUId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        //    var RUOrg = _repo.GetOrgUser(id, RUId);
+        //    var userOrgFromRepo = _repo.GetOrgUser(id, userId);
+        //    if (RUOrg == null || RUOrg.Role < userOrgFromRepo.Role)
+        //    {
+        //        return Unauthorized();
+        //    }
+
+        //    _repo.DeleteOrgUser(userOrgFromRepo);
+        //    return NoContent();
+        //}
     }
 }
 

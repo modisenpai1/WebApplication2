@@ -10,9 +10,8 @@ namespace WebApplication2.Domain.DTOs
     }
     public class UserOrgReadDto
     {
-        public int Id { get; set; }
         public UserRefrenceDto user { get; set; }
-        public OrganizationRefDto organization { get; set; }
-        public OrgRole role { get; set; }
+        public OrganizationRefDto Orginization { get; set; }
+        public OrgRole Role { get; set; }
     }
 }

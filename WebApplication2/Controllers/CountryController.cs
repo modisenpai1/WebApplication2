@@ -20,7 +20,7 @@ namespace WebApplication2.Controllers
             _mapper = mapper;
             _repo = repo;
         }
-     [HttpGet]
+        [HttpGet]
         [Produces(typeof(CountryReadDto))]
        public IActionResult getAllCountries() {
             var Countries = _mapper.Map<IEnumerable< CountryReadDto>>(_repo.GetAllCountries());

@@ -5,6 +5,7 @@ using WebApplication2.Services;
 using WebApplication2.Domain.DTOs;
 using Microsoft.AspNetCore.JsonPatch;
 using Duende.IdentityServer.Extensions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplication2.Controllers
 {
@@ -21,7 +22,7 @@ namespace WebApplication2.Controllers
             _mapper = mapper;
         }
 
-
+        
         [HttpGet]
         [Produces(typeof(CityReadDto))]
         public IActionResult getAllcities()

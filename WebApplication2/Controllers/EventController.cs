@@ -5,6 +5,8 @@ using WebApplication2.Services;
 using WebApplication2.Domain.DTOs;
 using Microsoft.AspNetCore.JsonPatch;
 using Duende.IdentityServer.Extensions;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace WebApplication2.Controllers
 {
@@ -26,6 +28,20 @@ namespace WebApplication2.Controllers
         {
             var events = _mapper.Map<IEnumerable<EventReadDto>>(_repo.GetAll());
             return Ok(events);
+        }
+
+
+        [Authorize]
+        [HttpGet("homepage")]
+        [Produces(typeof(EventReadDto))]
+        public IActionResult HomePage()
+        {
+            var RUCity = User.FindFirst("City").Value;
+            var RUCountry = User.FindFirst(ClaimTypes.Country).Value;
+            var events= _mapper.Map<IEnumerable<EventReadDto>>(_repo.GetAll());
+            var homePageEvents=events.Where(x => x.City.CityName == RUCity);
+            homePageEvents.Union(events.OrderBy(x => x.Country.Name == RUCountry));
+            return Ok(homePageEvents);
         }
 
 
@@ -56,6 +72,8 @@ namespace WebApplication2.Controllers
 
             return Ok(evnt);
         }
+
+        [Authorize]
         [Produces(typeof(EventCreateDto))]
         [HttpPost]
         public IActionResult CreateEvent(EventCreateDto eventDto)

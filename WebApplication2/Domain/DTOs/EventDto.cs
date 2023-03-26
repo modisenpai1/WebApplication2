@@ -36,7 +36,8 @@ namespace WebApplication2.Domain.DTOs
         public ICollection<EventUserReadDto> EventUsers { get; set; }
         public AddressRefDto Adress { get; set; }
         public OrganizationRefDto Orginization { get; set; }
-        public CityReadDto City { get; set; }
+        public CityRefDto City { get; set; }
+        public CountryRefDto Country { get; set;}
     }
     public class EventRefDto 
     {

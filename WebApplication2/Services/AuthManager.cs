@@ -52,8 +52,9 @@ namespace WebApplication2.Services
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name,_user.UserName),
-
-                new Claim(ClaimTypes.NameIdentifier,_user.Id)
+                new Claim(ClaimTypes.NameIdentifier,_user.Id),
+                new Claim(ClaimTypes.Country,_user.Country.Name),
+                new Claim("City",_user.city.CityName)
             };
             var roles = await _userManager.GetRolesAsync(_user);
             foreach(var role in roles)

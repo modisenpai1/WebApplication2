@@ -11,7 +11,8 @@ namespace WebApplication2.Domain.DTOs
         public int Id { get; set; }
         public string Name { get; set; }
         public ICollection<CityRefDto> Cities { get; set; }
-        public ICollection<UserReadDto> users { get; set; }
+        public ICollection<EventRefDto> Events { get; set; }
+        public ICollection<UserRefDto> users { get; set; }
 
     }
     public class CountryRefDto

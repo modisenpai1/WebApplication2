@@ -58,6 +58,11 @@ namespace WebApplication2.Data
                 .WithMany(c => c.Adresses)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<Event>()
+                .HasOne(u => u.Country)
+                .WithMany(e=>e.Events)
+                .OnDelete(DeleteBehavior.Restrict);
+
         }
 
 

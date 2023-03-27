@@ -28,7 +28,7 @@ namespace WebApplication2.Services
         {
             return _repo.Table.Include(x => x.Adress)
                 .Include(x => x.City)
-                .ThenInclude(y => y.country)
+                .Include(x=>x.Country)
                 .Include(x => x.EventUsers)
                 .Include(x => x.Orginization)
                 .ToList();

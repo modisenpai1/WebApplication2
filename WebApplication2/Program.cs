@@ -20,9 +20,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(
                     //T-Work
-                    "server=PHOTOSHOP-PC\\SQLEXPRESS;initial catalog=webapp2;user id=test;password=test123;trustservercertificate=true;"
+                    //"server=PHOTOSHOP-PC\\SQLEXPRESS;initial catalog=webapp2;user id=test;password=test123;trustservercertificate=true;"
                     //T-Home
-                    //"Server=DESKTOP-ITL4GJU\\SQLEXPRESS;Initial Catalog=newApiDB;User ID=admin;Password=admin;trustservercertificate=true;"
+                    "Server=DESKTOP-ITL4GJU\\SQLEXPRESS;Initial Catalog=newApiDB;User ID=admin;Password=admin;trustservercertificate=true;"
                     //modi
                     //"Server=localhost;Database=EventsAppDb;User Id=sa;Password=admin;Trusted_Connection=true;Encrypt=False;"
                     ,

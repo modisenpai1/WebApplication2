@@ -31,6 +31,9 @@ namespace WebApplication2.Domain.Models
         public int CityId { get; set; }
         [ForeignKey("CityId")]
         public City City { get; set; }
+        public int CountryId { get; set; }
+        [ForeignKey("CityId")]
+        public Country Country { get; set; }
         public Event()
         {
            

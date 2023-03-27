@@ -11,7 +11,7 @@ namespace WebApplication2.Domain.DTOs
     }
     public class EventUserReadDto 
     {
-        public UserRefrenceDto User { get; set; }
+        public UserRefDto User { get; set; }
         public DateTime NotifyMe { get; set; }
         public EventRole role { get; set; }
     }

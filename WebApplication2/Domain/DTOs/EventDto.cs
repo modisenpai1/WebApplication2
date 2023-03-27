@@ -18,6 +18,7 @@ namespace WebApplication2.Domain.DTOs
         public int? AdressId { get; set; }
         public int OrginizationId { get; set; }
         public int CityId { get; set; }
+        public int CountryId { get; set; }
     }
 
     public class EventReadDto 

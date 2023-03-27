@@ -23,7 +23,7 @@ namespace WebApplication2.Domain.DTOs
         [Required]
         public string password { get; set; }
     }
-    public class UserRefrenceDto 
+    public class UserRefDto 
     {
         public string id { get; set; }
         public string UserName { get; set; }
@@ -35,8 +35,8 @@ namespace WebApplication2.Domain.DTOs
         public string userName { get; set; }
         public string phoneNumber { get; set; }
         public DateTime BirthDate { get; set; }
-        public CountryReadDto country { get; set; }
-        public CityReadDto city { get; set; }
+        public CountryRefDto country { get; set; }
+        public CityRefDto city { get; set; }
         public ICollection<UserEventReadDto> EventUsers { get; set; }
         public ICollection<UserOrgReadDto> UserOrgs { get; set; }
 

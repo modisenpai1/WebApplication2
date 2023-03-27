@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication2.Data;
 
@@ -11,9 +12,11 @@ using WebApplication2.Data;
 namespace WebApplication2.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230327195426_addedCountryToEvent")]
+    partial class addedCountryToEvent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace WebApplication2.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d0adee82-242d-447e-a4d7-9d50eed4acf9",
+                            Id = "e640ca92-3a4f-4ecc-92fa-add8ab4f60f5",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "164d7dc8-ed48-45af-bd52-837d68f2f19e",
+                            Id = "7f63ac06-0f51-4b2e-833a-a03515b9b629",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -343,9 +346,6 @@ namespace WebApplication2.Migrations
                     b.Property<int>("CityId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CountryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -600,12 +600,6 @@ namespace WebApplication2.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebApplication2.Domain.Models.Country", "Country")
-                        .WithMany()
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("WebApplication2.Domain.Models.Orginization", "Orginization")
                         .WithMany("Events")
                         .HasForeignKey("OrginizationId")
@@ -615,8 +609,6 @@ namespace WebApplication2.Migrations
                     b.Navigation("Adress");
 
                     b.Navigation("City");
-
-                    b.Navigation("Country");
 
                     b.Navigation("Orginization");
                 });

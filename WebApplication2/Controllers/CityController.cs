@@ -86,7 +86,7 @@ namespace WebApplication2.Controllers
             if(city.eventsAtCity.Count()>0 || city.UserInCity.Count()>0)
             {
                 var events = _mapper.Map<IEnumerable<EventReadDto>>(city.eventsAtCity);
-                var users = _mapper.Map<IEnumerable<UserRefrenceDto>>(city.UserInCity);
+                var users = _mapper.Map<IEnumerable<UserRefDto>>(city.UserInCity);
                 return BadRequest("the entity can't be deleted as it's in use in:\n" + users.ToList() + "\n" + events.ToList());
             }
             else

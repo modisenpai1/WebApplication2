@@ -36,12 +36,12 @@ namespace WebApplication2.Controllers
         [Produces(typeof(EventReadDto))]
         public IActionResult HomePage()
         {
-            var RUCity = User.FindFirst("City").Value;
-            var RUCountry = User.FindFirst(ClaimTypes.Country).Value;
-            var events= _mapper.Map<IEnumerable<EventReadDto>>(_repo.GetAll());
-            var homePageEvents=events.Where(x => x.City.CityName == RUCity);
-            homePageEvents.Union(events.OrderBy(x => x.Country.Name == RUCountry));
-            return Ok(homePageEvents);
+            var RUCityId = User.FindFirst("City").Value;
+            var RUCountryId = User.FindFirst(ClaimTypes.Country).Value;
+            var events= _repo.GetAll();
+            var homePageEvents=events.Where(x => x.CityId == int.Parse(RUCityId));
+            homePageEvents.Union(events.OrderBy(x => x.CountryId == int.Parse(RUCountryId)));
+            return Ok(_mapper.Map<EventReadDto>(homePageEvents));
         }
 
 

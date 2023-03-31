@@ -12,7 +12,7 @@ namespace WebApplication2.Domain.DTOs
         public string Name { get; set; }
         public ICollection<CityRefDto> Cities { get; set; }
         public ICollection<EventRefDto> Events { get; set; }
-        public ICollection<UserRefDto> users { get; set; }
+        public ICollection<UserRefDto> UsersInCountry { get; set; }
 
     }
     public class CountryRefDto

@@ -8,18 +8,10 @@ namespace WebApplication2.Data
 {
     public class AppDbContext : IdentityDbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> opt) : base(opt)
-        {
-
-
-        }
+        public AppDbContext(DbContextOptions<AppDbContext> opt) : base(opt){}
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-
-
-
-       
 
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -48,6 +40,11 @@ namespace WebApplication2.Data
                 .HasForeignKey("CityId")
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<UserOrg>()
+                .HasOne(u => u.User)
+                .WithMany(u => u.UserOrgs)
+                .OnDelete(DeleteBehavior.NoAction);
+
             modelBuilder.Entity<Country>()
                 .HasMany(u => u.Adresses)
                 .WithOne(c => c.Country)
@@ -60,7 +57,7 @@ namespace WebApplication2.Data
 
             modelBuilder.Entity<Event>()
                 .HasOne(u => u.Country)
-                .WithMany(e=>e.Events)
+                .WithMany(c => c.Events)
                 .OnDelete(DeleteBehavior.Restrict);
 
         }

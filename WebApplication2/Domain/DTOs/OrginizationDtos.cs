@@ -14,7 +14,7 @@ namespace WebApplication2.Domain.DTOs
         public string Name { get; set; }
         public string Discription { get; set; }
         public string? ImgPath { get; set; }
-        public ICollection<UserOrgReadDto> UserOrgs { get; set; }
+        public ICollection<OrgUserReadDto> UserOrgs { get; set; }
         public ICollection<EventReadDto> Events { get; set; }
     }
     public class OrganizationRefDto

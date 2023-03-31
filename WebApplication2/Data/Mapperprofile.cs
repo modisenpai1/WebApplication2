@@ -34,6 +34,8 @@ namespace WebApplication2.Data
 
             CreateMap<UserOrgCreateDto,UserOrg>().ReverseMap();
             CreateMap<UserOrgReadDto, UserOrg>().ReverseMap();
+            CreateMap<OrgUserReadDto, UserOrg>().ReverseMap();
+
 
             CreateMap<AddressRefDto,Adress>().ReverseMap();
         }

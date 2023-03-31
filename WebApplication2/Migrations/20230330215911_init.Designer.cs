@@ -12,8 +12,8 @@ using WebApplication2.Data;
 namespace WebApplication2.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230318111205_addedRoles")]
-    partial class addedRoles
+    [Migration("20230330215911_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,13 +54,13 @@ namespace WebApplication2.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "73c8c181-e8b7-40d8-a2e5-fb144d0f7ae1",
+                            Id = "1c5a6ccd-f235-4c8c-ba89-9c43cef05f52",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "51e493f1-6b72-4c81-b40b-6575043b42cf",
+                            Id = "2ce1cc17-e9ea-4d89-b81f-de41f8264c14",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -346,6 +346,9 @@ namespace WebApplication2.Migrations
                     b.Property<int>("CityId")
                         .HasColumnType("int");
 
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -387,6 +390,8 @@ namespace WebApplication2.Migrations
                     b.HasIndex("AdressId");
 
                     b.HasIndex("CityId");
+
+                    b.HasIndex("CountryId");
 
                     b.HasIndex("OrginizationId");
 
@@ -463,7 +468,7 @@ namespace WebApplication2.Migrations
                     b.Property<int>("OrginizationId")
                         .HasColumnType("int");
 
-                    b.Property<int>("role")
+                    b.Property<int>("Role")
                         .HasColumnType("int");
 
                     b.HasKey("UserId", "OrginizationId");
@@ -600,6 +605,12 @@ namespace WebApplication2.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WebApplication2.Domain.Models.Country", "Country")
+                        .WithMany("Events")
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("WebApplication2.Domain.Models.Orginization", "Orginization")
                         .WithMany("Events")
                         .HasForeignKey("OrginizationId")
@@ -609,6 +620,8 @@ namespace WebApplication2.Migrations
                     b.Navigation("Adress");
 
                     b.Navigation("City");
+
+                    b.Navigation("Country");
 
                     b.Navigation("Orginization");
                 });
@@ -689,6 +702,8 @@ namespace WebApplication2.Migrations
                     b.Navigation("Adresses");
 
                     b.Navigation("Cities");
+
+                    b.Navigation("Events");
 
                     b.Navigation("UsersInCountry");
                 });

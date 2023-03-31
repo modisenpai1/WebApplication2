@@ -17,7 +17,6 @@ namespace WebApplication2.Domain.Models
         public string Description { get; set; }
         public Accessibality accessibality { get; set; }
         public bool IsOnline { get; set; }
-    
         public string Link { get; set; }
         public bool hasMaxCap { get; set; }
         public int MaxCap { get; set; }
@@ -32,7 +31,7 @@ namespace WebApplication2.Domain.Models
         [ForeignKey("CityId")]
         public City City { get; set; }
         public int CountryId { get; set; }
-        [ForeignKey("CityId")]
+        [ForeignKey("CountryId")]
         public Country Country { get; set; }
         public Event()
         {

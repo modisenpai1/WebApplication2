@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using WebApplication2.Domain.DTOs;
 using WebApplication2.Domain.Models;
 using WebApplication2.Services;
@@ -27,6 +29,14 @@ namespace WebApplication2.Controllers
             _authManager=authManager;
         }
 
+        //[Authorize]
+        //[HttpGet("organizations")]
+        //public IActionResult GetUserOrgs()
+        //{
+        //    var RUId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        //    var user = _repo.GetUser(RUId);
+        //    var 
+        //}
 
         [HttpGet]
         [Produces(typeof(IEnumerable<UserReadDto>))]

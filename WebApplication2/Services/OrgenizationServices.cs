@@ -25,7 +25,7 @@ namespace WebApplication2.Services
 
         public IEnumerable<Orginization> getAllorginizations()
         {
-           return _repo.Table.Include(x => x.Events).Include(x => x.UserOrgs).ThenInclude(y=>y.Orginization).Include(x => x.Adresses).ToList();
+           return _repo.Table.Include(x => x.Events).Include(x => x.UserOrgs).Include(x => x.Adresses).ToList();
         }
 
         public Orginization GetOrginzation(int id)

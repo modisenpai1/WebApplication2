@@ -40,8 +40,8 @@ namespace WebApplication2.Controllers
             var RUCountryId = User.FindFirst(ClaimTypes.Country).Value;
             var events= _repo.GetAll();
             var homePageEvents=events.Where(x => x.CityId == int.Parse(RUCityId));
-            homePageEvents.Union(events.OrderBy(x => x.CountryId == int.Parse(RUCountryId)));
-            return Ok(_mapper.Map<EventReadDto>(homePageEvents));
+            homePageEvents= homePageEvents.Union(events.Where(x => x.CountryId == int.Parse(RUCountryId)).Union(events));
+            return Ok(_mapper.Map<IEnumerable<EventReadDto>>(homePageEvents));
         }
 
 

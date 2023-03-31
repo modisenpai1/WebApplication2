@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace WebApplication2.Migrations
 {
     /// <inheritdoc />
-    public partial class inti : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -126,7 +128,8 @@ namespace WebApplication2.Migrations
                         name: "FK_Adresses_Countries_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Countries",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Adresses_orginizations_OrginizationId",
                         column: x => x.OrginizationId,
@@ -195,7 +198,8 @@ namespace WebApplication2.Migrations
                     MaxCap = table.Column<int>(type: "int", nullable: false),
                     AdressId = table.Column<int>(type: "int", nullable: false),
                     OrginizationId = table.Column<int>(type: "int", nullable: false),
-                    CityId = table.Column<int>(type: "int", nullable: false)
+                    CityId = table.Column<int>(type: "int", nullable: false),
+                    CountryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -211,6 +215,12 @@ namespace WebApplication2.Migrations
                         principalTable: "Cities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Events_Countries_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Countries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Events_orginizations_OrginizationId",
                         column: x => x.OrginizationId,
@@ -310,7 +320,7 @@ namespace WebApplication2.Migrations
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     OrginizationId = table.Column<int>(type: "int", nullable: false),
-                    role = table.Column<int>(type: "int", nullable: false)
+                    Role = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -353,6 +363,15 @@ namespace WebApplication2.Migrations
                         principalTable: "Events",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "1c5a6ccd-f235-4c8c-ba89-9c43cef05f52", null, "User", "USER" },
+                    { "2ce1cc17-e9ea-4d89-b81f-de41f8264c14", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -433,6 +452,11 @@ namespace WebApplication2.Migrations
                 name: "IX_Events_CityId",
                 table: "Events",
                 column: "CityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Events_CountryId",
+                table: "Events",
+                column: "CountryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Events_OrginizationId",

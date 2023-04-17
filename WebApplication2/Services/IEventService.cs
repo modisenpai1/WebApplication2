@@ -10,5 +10,10 @@ namespace WebApplication2.Services
         public IEnumerable<Event> Search(string name,City city);
         public void Update(Event evnt);
         public void Delete(Event evnt);
+        //event User
+        void Enroll(EventUser eventUser);
+        void UpdateRole(EventUser eventUser);
+        EventUser GetEventUser(int EventId, string userId);
+        void DeleteEventUser(EventUser eventUser);
     }
 }

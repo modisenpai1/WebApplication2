@@ -7,10 +7,12 @@ namespace WebApplication2.Services
     public class EventService : IEventService
     {
         private readonly IAppRepo<Event> _repo;
+        private readonly IAppRepo<EventUser> _eventUserRepo;
 
-        public EventService(IAppRepo<Event> repo)
+        public EventService(IAppRepo<Event> repo,IAppRepo<EventUser> eventUserRepo)
         {
             _repo = repo;
+            _eventUserRepo= eventUserRepo;
         }
         public void AddEvent(Event evnt)
         {
@@ -23,6 +25,8 @@ namespace WebApplication2.Services
             _repo.DeleteItem(evnt);
             _repo.SaveChanges();
         }
+
+       
 
         public IEnumerable<Event> GetAll()
         {
@@ -43,6 +47,8 @@ namespace WebApplication2.Services
                 .Include(x => x.Orginization)
                 .FirstOrDefault(x => x.Id == id);
         }
+
+      
 
         public IEnumerable<Event> Search(string name,City city)
         {
@@ -67,6 +73,24 @@ namespace WebApplication2.Services
         {
             _repo.UpdateItem(evnt);
             _repo.SaveChanges();
+        }
+        //EventUser___________________________________________________________________________________________
+        public void UpdateRole(EventUser eventUser)
+        {
+            _eventUserRepo.UpdateItem(eventUser);
+        }
+        public void DeleteEventUser(EventUser eventUser)
+        {
+            _eventUserRepo.DeleteItem(eventUser);
+        }
+
+        public void Enroll(EventUser eventUser)
+        {
+            _eventUserRepo.AddItem(eventUser);
+        }
+        public EventUser GetEventUser(int EventId, string userId)
+        {
+            return _eventUserRepo.Table.FirstOrDefault(x => x.EventId==EventId && x.UserId==userId);
         }
     }
 }

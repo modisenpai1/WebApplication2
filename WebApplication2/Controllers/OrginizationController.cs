@@ -162,7 +162,7 @@ namespace WebApplication2.Controllers
                 return ValidationProblem(ModelState);
             }
             //temporary???
-            if (userOrgToPatch.role == OrgRole.Admin)
+            if (userOrgToPatch.role == OrgRole.Admin || RUOrg.Role== OrgRole.Member)
             {
                 return Forbid();
             }

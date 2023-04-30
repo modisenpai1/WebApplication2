@@ -78,19 +78,27 @@ namespace WebApplication2.Services
         public void UpdateRole(EventUser eventUser)
         {
             _eventUserRepo.UpdateItem(eventUser);
+            _eventUserRepo.SaveChanges();
         }
         public void DeleteEventUser(EventUser eventUser)
         {
             _eventUserRepo.DeleteItem(eventUser);
+            _eventUserRepo.SaveChanges();
         }
 
         public void Enroll(EventUser eventUser)
         {
             _eventUserRepo.AddItem(eventUser);
+            _eventUserRepo.SaveChanges();
         }
         public EventUser GetEventUser(int EventId, string userId)
         {
             return _eventUserRepo.Table.FirstOrDefault(x => x.EventId==EventId && x.UserId==userId);
+        }
+
+        public IEnumerable<EventUser> GetEventUsers(int EventId)
+        {
+            return _eventUserRepo.Table.Include(x=>x.User) .ToList();
         }
     }
 }

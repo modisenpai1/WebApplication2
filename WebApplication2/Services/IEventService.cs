@@ -14,6 +14,7 @@ namespace WebApplication2.Services
         void Enroll(EventUser eventUser);
         void UpdateRole(EventUser eventUser);
         EventUser GetEventUser(int EventId, string userId);
+        IEnumerable<EventUser> GetEventUsers(int EventId);
         void DeleteEventUser(EventUser eventUser);
     }
 }

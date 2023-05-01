@@ -15,7 +15,6 @@ namespace WebApplication2.Data
 
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-
         {
 
             base.OnModelCreating(modelBuilder);
@@ -72,8 +71,6 @@ namespace WebApplication2.Data
         public DbSet<Country> Countries { get; set; }
         public DbSet<EventUser> EventUsers { get; set; }
         public DbSet<UserOrg> UserOrgs { get; set; }
-
-
-
+        public DbSet<Invitation> Invitations { get; set; }
     }
 }

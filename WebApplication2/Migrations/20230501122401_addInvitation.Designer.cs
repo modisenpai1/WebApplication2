@@ -12,8 +12,8 @@ using WebApplication2.Data;
 namespace WebApplication2.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230330215911_init")]
-    partial class init
+    [Migration("20230501122401_addInvitation")]
+    partial class addInvitation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,13 +54,13 @@ namespace WebApplication2.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1c5a6ccd-f235-4c8c-ba89-9c43cef05f52",
+                            Id = "0b207963-a8b5-467a-b935-fbb7c5bbbb3e",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "2ce1cc17-e9ea-4d89-b81f-de41f8264c14",
+                            Id = "752d2d43-c522-4a22-af49-01944e2f0fd7",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -419,6 +419,36 @@ namespace WebApplication2.Migrations
                     b.ToTable("EventUsers");
                 });
 
+            modelBuilder.Entity("WebApplication2.Domain.Models.Invitation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Invitations");
+                });
+
             modelBuilder.Entity("WebApplication2.Domain.Models.Orginization", b =>
                 {
                     b.Property<int>("Id")
@@ -645,6 +675,25 @@ namespace WebApplication2.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("WebApplication2.Domain.Models.Invitation", b =>
+                {
+                    b.HasOne("WebApplication2.Domain.Models.Event", "Event")
+                        .WithMany("InvitedUsers")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApplication2.Domain.Models.User", "User")
+                        .WithMany("EventInvitations")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("WebApplication2.Domain.Models.UserOrg", b =>
                 {
                     b.HasOne("WebApplication2.Domain.Models.Orginization", "Orginization")
@@ -656,7 +705,7 @@ namespace WebApplication2.Migrations
                     b.HasOne("WebApplication2.Domain.Models.User", "User")
                         .WithMany("UserOrgs")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Orginization");
@@ -711,6 +760,8 @@ namespace WebApplication2.Migrations
             modelBuilder.Entity("WebApplication2.Domain.Models.Event", b =>
                 {
                     b.Navigation("EventUsers");
+
+                    b.Navigation("InvitedUsers");
                 });
 
             modelBuilder.Entity("WebApplication2.Domain.Models.Orginization", b =>
@@ -724,6 +775,8 @@ namespace WebApplication2.Migrations
 
             modelBuilder.Entity("WebApplication2.Domain.Models.User", b =>
                 {
+                    b.Navigation("EventInvitations");
+
                     b.Navigation("EventUsers");
 
                     b.Navigation("UserOrgs");

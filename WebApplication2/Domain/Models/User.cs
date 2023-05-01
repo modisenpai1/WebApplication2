@@ -18,6 +18,7 @@ namespace WebApplication2.Domain.Models
         public int CityId { get; set; }
         [ForeignKey("CityId")]
         public City city { get; set; }
+        public ICollection<Invitation> EventInvitations { get; set; }
         public ICollection<EventUser> EventUsers { get; set; }
         public ICollection<UserOrg> UserOrgs { get; set; }
 
@@ -26,9 +27,9 @@ namespace WebApplication2.Domain.Models
 
         public User()
         {
-           EventUsers = new List<EventUser>();
+            EventUsers = new List<EventUser>();
+            EventInvitations=new List<Invitation>();
             UserOrgs = new List<UserOrg>();
-
         }
     }
     

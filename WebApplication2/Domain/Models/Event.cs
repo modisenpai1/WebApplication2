@@ -22,6 +22,8 @@ namespace WebApplication2.Domain.Models
         public int MaxCap { get; set; }
         public int? AdressId{ get; set; }
         public ICollection<EventUser> EventUsers { get; set; }
+        public ICollection<Invitation> InvitedUsers { get; set; }
+
         [ForeignKey("AdressId")]
         public Adress Adress { get; set; }
         public int OrginizationId { get; set; }
@@ -33,10 +35,12 @@ namespace WebApplication2.Domain.Models
         public int CountryId { get; set; }
         [ForeignKey("CountryId")]
         public Country Country { get; set; }
+        
         public Event()
         {
            
-        EventUsers = new List<EventUser>();
+            EventUsers = new List<EventUser>();
+            InvitedUsers = new List<Invitation>();
 
         }
     

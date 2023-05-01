@@ -34,19 +34,6 @@ namespace WebApplication2.Controllers
 
 
 
-        //[HttpGet]
-        //[Authorize]
-        //[Produces(typeof(IEnumerable<OrginizationReadDtos>))]
-        //public IActionResult GetUserOrgs()
-        //{
-        //    var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-        //    var user =
-
-
-        //    return Ok(_mapper.Map<IEnumerable<OrginizationReadDtos>>(_repo.getAllorginizations()));
-        //}
-
-
 
         [HttpGet("{id}")]
         [Produces(typeof(OrginizationReadDtos))]

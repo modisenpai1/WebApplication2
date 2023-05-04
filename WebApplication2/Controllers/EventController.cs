@@ -79,22 +79,37 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public IActionResult CreateEvent(EventCreateDto eventDto)
         {
+            var RUId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var eventModle = _mapper.Map<Event>(eventDto);
 
 
             _repo.AddEvent(eventModle);
-
-
+            EventUser EventUser = new()
+            {
+                UserId = RUId,
+                EventId = eventModle.Id,
+                Role = EventRole.Creator
+                //should he have a notify me on by defualt?
+            };
+            _repo.AddEventUser(EventUser);
             return Ok(eventModle.Id);
 
         }
+
+        [Authorize]
         [HttpPatch("{id}")]
         public IActionResult PatchEvent(int id, JsonPatchDocument<EventCreateDto> patchDoc)
         {
+            var RUId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var EventUser = _repo.GetEventUser(id, RUId);
             var eventFromRepo = _repo.GetEvent(id);
             if (eventFromRepo == null)
             {
                 return NotFound();
+            }
+            if (EventUser == null || EventUser.Role > EventRole.Administrator)
+            {
+                return Unauthorized();
             }
             var eventToPatch = _mapper.Map<EventCreateDto>(eventFromRepo);
             patchDoc.ApplyTo(eventToPatch, ModelState);
@@ -126,25 +141,27 @@ namespace WebApplication2.Controllers
         // event user -------------------------------------------------------------------------------------------------------------------
         [HttpGet("/users")]
         [Authorize]
+        ///should the event users be accesible to all users or just event admins
         public IActionResult GetEventUsers(int id)
         {
             return Ok(_repo.GetEventUsers(id));
         }
 
 
-
+        
         [HttpPost("/users")]
         [Authorize]
-        public IActionResult AddEventUser(EventCreateDto eventUser, Exception notImplementedException)
+        public IActionResult AddEventUser(EventUserCreateDto EventUserDto)
         {
-            throw new NotImplementedException();
+                
         }
 
         [HttpDelete("/users")]
         [Authorize]
         public IActionResult DeleteEventUser(int id)
         {
-            throw new NotImplementedException();
+            var RUId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
         }
         [HttpPatch("/users")]
         [Authorize]

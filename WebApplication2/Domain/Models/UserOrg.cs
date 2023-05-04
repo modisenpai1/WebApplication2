@@ -14,8 +14,8 @@ namespace WebApplication2.Domain.Models
     }
     public enum OrgRole
     {
-        Member=0,
-        Admin=1,
-        Creator=2
+        Creator,
+        Administrator,
+        Member
     }
 }

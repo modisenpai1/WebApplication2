@@ -74,10 +74,18 @@ namespace WebApplication2.Controllers
         [HttpPatch]
         public IActionResult Patch(int id, JsonPatchDocument<OrginizationCreateDto> patchDoc)
         {
+            var RUId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var RUOrg = _repo.GetOrgUser(id, RUId);
             var orgFromRepo = _repo.GetOrginzation(id);
-            if (orgFromRepo == null)
+            
+            if(orgFromRepo != null)
             {
                 return NotFound();
+            }
+            //chage the way its setup so that the admin is > participant
+            if (RUOrg == null || RUOrg.Role > OrgRole.Administrator)
+            {
+                return Unauthorized();
             }
             var OrgToPatch = _mapper.Map<OrginizationCreateDto>(orgFromRepo);
             patchDoc.ApplyTo(OrgToPatch, ModelState);

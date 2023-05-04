@@ -8,11 +8,18 @@ namespace WebApplication2.Domain.Models
     public class Invitation
     {
         public int Id { get; set; }
-        [ForeignKey("UserId")]
-        public User User { get; set; }
+        public string InvitedUserId { get; set; }
+        [ForeignKey("InvitedUserId")]
+        public User InvitedUser { get; set; }
 
+        public string InvitingUserId { get; set; }
+        [ForeignKey("InvitingUserId")]
+        public User InvitingUser { get; set; }
+
+        public int EventId { get; set; }
         [ForeignKey("EventId")]
         public Event Event { get; set; }
+
         public Status Status { get; set; }
         public DateTime ExpirationDate { get; set; }
         public bool IsSeen { get; set; } = false;

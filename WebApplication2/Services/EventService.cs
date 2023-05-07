@@ -79,7 +79,7 @@ namespace WebApplication2.Services
             _repo.SaveChanges();
         }
         //EventUser___________________________________________________________________________________________
-        public void UpdateRole(EventUser eventUser)
+        public void UpdateEventUser(EventUser eventUser)
         {
             _eventUserRepo.UpdateItem(eventUser);
             _eventUserRepo.SaveChanges();

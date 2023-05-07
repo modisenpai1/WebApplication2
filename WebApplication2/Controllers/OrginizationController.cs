@@ -131,14 +131,14 @@ namespace WebApplication2.Controllers
 
         
         [Authorize]
-        [HttpPatch("users/{id}")]
-        public IActionResult ChangeRole(int id, string userId, JsonPatchDocument<UserOrgCreateDto> patchDoc)
+        [HttpPatch("OrgId/users/{id}")]
+        public IActionResult ChangeRole(int OrgId, string userId, JsonPatchDocument<UserOrgCreateDto> patchDoc)
         {
             //getting the id of the user who made the request
             var RUId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            var RUOrg = _repo.GetOrgUser(id, RUId);
-            var userOrgFromRepo = _repo.GetOrgUser(id, userId);
+            var RUOrg = _repo.GetOrgUser(OrgId, RUId);
+            var userOrgFromRepo = _repo.GetOrgUser(OrgId, userId);
             //checking if the requesting user has authority for the request
             if (userOrgFromRepo == null)
             {
@@ -157,7 +157,7 @@ namespace WebApplication2.Controllers
                 return ValidationProblem(ModelState);
             }
             //temporary???
-            if (userOrgToPatch.role == OrgRole.Admin || RUOrg.Role== OrgRole.Member)
+            if (userOrgToPatch.role == OrgRole.Administrator || RUOrg.Role== OrgRole.Member)
             {
                 return Forbid();
             }
@@ -169,16 +169,23 @@ namespace WebApplication2.Controllers
         }
         
         [Authorize]
-        [HttpDelete("users/{id}")]
-        public IActionResult DeleteUserOrg(int id, string userId)
+        [HttpDelete("{orgId}/users/{userId}")]
+        public IActionResult DeleteUserOrg(int OrgId, string UserId)
         {
 
             var RUId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var RUOrg = _repo.GetOrgUser(id, RUId);
-            var userOrgFromRepo = _repo.GetOrgUser(id, userId);
-            if (RUOrg == null || RUOrg.Role < userOrgFromRepo.Role)
+            var RUOrg = _repo.GetOrgUser(OrgId, RUId);
+            var userOrgFromRepo = _repo.GetOrgUser(OrgId, UserId);
+            if (userOrgFromRepo == null)
             {
-                return Unauthorized();
+                return NotFound();
+            }
+            if(RUId!= UserId)
+            {
+                if (RUOrg == null || RUOrg.Role > userOrgFromRepo.Role)
+                {
+                    return Unauthorized();
+                }
             }
 
             _repo.DeleteOrgUser(userOrgFromRepo);

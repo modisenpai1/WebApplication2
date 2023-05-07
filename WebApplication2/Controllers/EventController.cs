@@ -151,25 +151,122 @@ namespace WebApplication2.Controllers
         
         [HttpPost("/users")]
         [Authorize]
-        public IActionResult AddEventUser(EventUserCreateDto EventUserDto)
+        public IActionResult JoinEvent(EventUserCreateDto EventUserDto)
         {
-                
+            var EventFromRepo = _repo.GetEvent(EventUserDto.EventId);
+            var EventUser=_mapper.Map<EventUser>(EventFromRepo);
+            //public 
+            if(EventFromRepo.accessibality == Accessibality.Public)
+            {
+                if(_repo.GetEventUser(EventUser.EventId,EventUser.UserId)==null)
+                {
+                    _repo.AddEventUser(EventUser);
+                    return NoContent();
+                }
+                else
+                {
+                    return Ok("the User has already joined the event");
+                }
+            }
+
+            //Private
+            if(EventFromRepo.accessibality!= Accessibality.Private)
+            {
+                var RUId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var RUEvent=_repo.GetEventUser(EventUser.EventId,RUId);
+                if(RUEvent!=null && RUEvent.Role < EventRole.Particpant)
+                {
+                    if (_repo.GetEventUser(EventUser.EventId, EventUser.UserId) == null)
+                    {
+                        _repo.AddEventUser(EventUser);
+                        return NoContent();
+                    }
+                    else
+                    {
+                        return Ok("the User has already joined the event");
+                    }
+                }
+            }
+
+            //Invite
+            return Unauthorized();
         }
 
         [HttpDelete("/users")]
         [Authorize]
-        public IActionResult DeleteEventUser(int id)
+        public IActionResult DeleteEventUser(int EventId,string UserId)
         {
+           
+            
+            var eventUserFromRepo = _repo.GetEventUser(EventId,UserId);
+            if (eventUserFromRepo == null)
+            {
+                return NotFound();
+            }
+
+            // Check if the current user has permission to delete the event user
             var RUId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (RUId != UserId)
+            {
+                var RUEvent = _repo.GetEventUser(EventId, RUId);
+                if (RUEvent == null || RUEvent.Role >= eventUserFromRepo.Role)
+                {
+                    return Forbid();
+                }
+            }
+
+            _repo.DeleteEventUser(eventUserFromRepo);
+
+            return NoContent();
+            
 
         }
+  
+       
         [HttpPatch("/users")]
         [Authorize]
-        public IActionResult UpdateEventUser(int id, string userId, JsonPatchDocument<EventUserCreateDto> patchDoc)
+        public IActionResult UpdateEventUser(string userId, int eventId, [FromBody] JsonPatchDocument<EventUserCreateDto> patchDoc)
         {
-            /*make the event accessable based on its status as in public events will be accessed through the front page normaly private events will be only accessed if someone adds another user
-             while invite only should be researched*/
-            throw new NotImplementedException();
+            var eventUserFromRepo = _repo.GetEventUser(eventId, userId);
+            if (eventUserFromRepo == null)
+            {
+                return NotFound();
+            }
+
+            var eventUserToPatch = _mapper.Map<EventUserCreateDto>(eventUserFromRepo);
+            patchDoc.ApplyTo(eventUserToPatch, ModelState);
+
+            if (!TryValidateModel(eventUserToPatch))
+            {
+                return ValidationProblem(ModelState);
+            }
+
+            // Check if the current user has permission to update the role
+            var RUId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (eventUserToPatch.Role != eventUserFromRepo.Role)
+            {
+                if (RUId == userId)
+                {
+                    return Forbid();
+                }
+
+                var RUEvent = _repo.GetEventUser(eventId, RUId);
+                if (RUEvent == null || RUEvent.Role >= eventUserFromRepo.Role)
+                {
+                    return Forbid();
+                }
+            }
+
+            // Only update the NotifyMe field if the current user is the target user
+            if (RUId != userId)
+            {
+                eventUserToPatch.NotifyMe = eventUserFromRepo.NotifyMe;
+            }
+
+            _mapper.Map(eventUserToPatch, eventUserFromRepo);
+            _repo.UpdateEventUser(eventUserFromRepo);
+
+            return NoContent();
         }
     }
 }

@@ -12,7 +12,7 @@ namespace WebApplication2.Services
         public void Delete(Event evnt);
         //event User
         void AddEventUser(EventUser eventUser);
-        void UpdateRole(EventUser eventUser);
+        void UpdateEventUser(EventUser eventUser);
         EventUser GetEventUser(int EventId, string userId);
         IEnumerable<EventUser> GetEventUsers(int EventId);
         void DeleteEventUser(EventUser eventUser);

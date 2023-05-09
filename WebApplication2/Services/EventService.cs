@@ -9,13 +9,13 @@ namespace WebApplication2.Services
     {
         private readonly IAppRepo<Event> _repo;
         private readonly IAppRepo<EventUser> _eventUserRepo;
-        private readonly IAppRepo<Invitation> _invitationRepo;
+        private readonly IAppRepo<Invitation> _InvitationRepo;
 
         public EventService(IAppRepo<Event> repo, IAppRepo<EventUser> eventUserRepo, IAppRepo<Invitation> invitationRepo)
         {
             _repo = repo;
             _eventUserRepo = eventUserRepo;
-            _invitationRepo = invitationRepo;
+            _InvitationRepo = invitationRepo;
         }
 
         public void AddEvent(Event evnt)
@@ -104,57 +104,98 @@ namespace WebApplication2.Services
         {
             return _eventUserRepo.Table.Include(x => x.User).ToList();
         }
+
+
+
+
         // invitation service__________________________________________________________________________________
-        public void AddInvitation(Invitation invitation) 
+        public void AddInvitation(Invitation Invitation) 
         {
-            _invitationRepo.AddItem(invitation);
-            _invitationRepo.SaveChanges();
+            Invitation.ExpirationDate = DateTime.Now.AddDays(3);
+            _InvitationRepo.AddItem(Invitation);
+            _InvitationRepo.SaveChanges();
         }
-        public void DeleteInvitation(Invitation invitation) 
+        public void DeleteInvitation(Invitation Invitation) 
         {
-            _invitationRepo.DeleteItem(invitation); 
-            _invitationRepo.SaveChanges();
+            _InvitationRepo.DeleteItem(Invitation); 
+            _InvitationRepo.SaveChanges();
         }
-        public void UpdateInvitation(Invitation invitation) 
+        public void UpdateInvitation(Invitation Invitation) 
         {
-            _invitationRepo.UpdateItem(invitation);
-            _invitationRepo.SaveChanges();
+            _InvitationRepo.UpdateItem(Invitation);
+            _InvitationRepo.SaveChanges();
         }
         public IEnumerable<Invitation> GetInvitationsByUser(string UserId) 
         {
-            return _invitationRepo.Table.
+            var Invitations = _InvitationRepo.Table.
                 Where(x => x.InvitingUserId == UserId).
                 Include(x => x.InvitingUser).
                 Include(x => x.InvitedUser).
                 Include(x => x.Event).
                 ToList();
+            foreach (var invitation in Invitations)
+            {
+                if (invitation.Status == Status.Pending && invitation.ExpirationDate < DateTime.Now)
+                {
+                    invitation.Status = Status.Expired;
+                }
+            }
+            return Invitations;
+            
         }
         public IEnumerable<Invitation> GetInvitationsForUser(string UserId) 
         {
-            return _invitationRepo.Table.
-               Where(x => x.InvitedUserId == UserId).
-               Include(x => x.InvitingUser).
-               Include(x => x.InvitedUser).
-               Include(x => x.Event).
-               ToList();
+            var Invitations = _InvitationRepo.Table.
+                Where(x => x.InvitedUserId == UserId).
+                Include(x => x.InvitingUser).
+                Include(x => x.InvitedUser).
+                Include(x => x.Event).
+                ToList();
+            foreach (var invitation in Invitations)
+            {
+                if (invitation.Status == Status.Pending && invitation.ExpirationDate < DateTime.Now)
+                {
+                    invitation.Status = Status.Expired;
+                }
+            }
+            return Invitations;
         }
         public IEnumerable<Invitation> GetEventInvitations(int EventId) 
         {
-            return _invitationRepo.Table.
+            var invitations= _InvitationRepo.Table.
                Where(x => x.EventId == EventId).
                Include(x => x.InvitingUser).
                Include(x => x.InvitedUser).
                Include(x => x.Event).
                ToList();
+            foreach (var invitation in invitations)
+            {
+                if(invitation.Status == Status.Pending && invitation.ExpirationDate<DateTime.Now)
+                {
+                    invitation.Status= Status.Expired;
+                }
+            }
+            return invitations;
         }
-        public bool IsUserInvited(int EventId,string UserId)
+        public Invitation GetInvitationById(int Id)
         {
-            return _invitationRepo.Table.Any(x => 
-            x.EventId == EventId &&
-            x.InvitedUserId == UserId && 
-            x.ExpirationDate > DateTime.Now
-            );
+            var Invitation = _InvitationRepo.Table.
+               Include(x => x.InvitingUser).
+               Include(x => x.InvitedUser).
+               Include(x => x.Event).
+               FirstOrDefault(x => x.Id == Id);
+            if (Invitation.Status == Status.Pending && Invitation.ExpirationDate < DateTime.Now)
+            {
+                Invitation.Status = Status.Expired;
+            }
+            
+            return Invitation;
+            
+
+
         }
+
         //get invitation for user
+
     }
 }

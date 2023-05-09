@@ -20,9 +20,10 @@ namespace WebApplication2.Services
         public void AddInvitation(Invitation invitation);
         public void DeleteInvitation(Invitation invitation);
         public void UpdateInvitation(Invitation invitation);
+        public Invitation GetInvitationById(int Id);
         public IEnumerable<Invitation> GetInvitationsByUser(string UserId);
         public IEnumerable<Invitation> GetInvitationsForUser(string UserId);
         public IEnumerable<Invitation> GetEventInvitations(int EventId);
-        public bool IsUserInvited(int EventId,string UserId);
+
     }
 }

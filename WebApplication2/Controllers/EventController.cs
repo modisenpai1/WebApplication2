@@ -253,7 +253,7 @@ namespace WebApplication2.Controllers
                 var RUEvent = _repo.GetEventUser(eventId, RUId);
                 if (RUEvent == null || RUEvent.Role >= eventUserFromRepo.Role)
                 {
-                    return Forbid();
+                    return Unauthorized();
                 }
             }
 
@@ -268,6 +268,37 @@ namespace WebApplication2.Controllers
 
             return NoContent();
         }
+        //invitations__________________________________________________________________________________________________________________
+
+        //invite
+        [HttpPost("{EventId}/Invitations")]
+        [Authorize]
+        public IActionResult InviteUser(int EventId,InvitationCreateDto InvitationCreatDto)
+        {
+            var RUId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var RUEvent=_repo.GetEventUser(EventId, RUId);
+            if(EventId!=InvitationCreatDto.EventId)
+            {
+                return BadRequest("Event id provided in the request body doesnt match the source event id");
+            }
+            if(RUEvent == null||RUEvent.Role>EventRole.Administrator)
+            {
+                return Unauthorized();
+            }
+            var Invitation = _mapper.Map<Invitation>(InvitationCreatDto);
+            Invitation.InvitingUserId = RUId;
+            _repo.AddInvitation(Invitation);
+            return NoContent() ;
+        }
+        [HttpGet("/User/Invitations/")]
+        [Authorize]
+        //get invitations for user
+        //get invitations by user
+        //get invitations for events only accessible by admins
+        //get invitatoin by id ???
+        //update the status and the is seen variable
+        //cancle an invitation
+        //seperate endpoint for accepting an invitation?
     }
 }
 

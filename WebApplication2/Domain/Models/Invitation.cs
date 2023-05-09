@@ -20,7 +20,7 @@ namespace WebApplication2.Domain.Models
         [ForeignKey("EventId")]
         public Event Event { get; set; }
 
-        public Status Status { get; set; }
+        public Status Status { get; set; } = 0;
         public DateTime ExpirationDate { get; set; }
         public bool IsSeen { get; set; } = false;
     }

@@ -28,6 +28,9 @@ namespace WebApplication2.Data
             CreateMap<UserEventReadDto,EventUser>().ReverseMap();
             CreateMap<EventUserReadDto,EventUser>().ReverseMap();
 
+            CreateMap<Invitation,InvitationReadDto>().ReverseMap();
+            CreateMap<Invitation,InvitationCreateDto>().ReverseMap();
+
             CreateMap<OrganizationRefDto,Orginization>().ReverseMap();
             CreateMap<OrginizationReadDtos, Orginization>().ReverseMap();
             CreateMap<Orginization, OrginizationCreateDto>().ReverseMap();

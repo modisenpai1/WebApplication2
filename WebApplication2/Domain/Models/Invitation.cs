@@ -29,6 +29,7 @@ namespace WebApplication2.Domain.Models
         Pending,
         Accepted,
         Declined,
-        Expired
+        Expired,
+        Cancled
     }
 }

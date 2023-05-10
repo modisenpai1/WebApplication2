@@ -290,8 +290,7 @@ namespace WebApplication2.Controllers
             _repo.AddInvitation(Invitation);
             return NoContent() ;
         }
-        [HttpGet("/User/Invitations/")]
-        [Authorize]
+      
         //get invitations for user
         //get invitations by user
         //get invitations for events only accessible by admins

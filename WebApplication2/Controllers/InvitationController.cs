@@ -111,8 +111,70 @@ namespace WebApplication2.Controllers
             return Ok(_mapper.Map<InvitationReadDto>(Invitatoin));
 
         }
-        //update the status
-        //delete an invitation
+
+
+        //Decline the Invitation
+        [HttpPatch("{InvitationId}/Decline")]
+        [Authorize]
+        public IActionResult DeclineInvitatoin(int InvitationId)
+        {
+            var RUId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var InvitatoinFromRepo = _repo.GetInvitationById(InvitationId);
+            if (InvitatoinFromRepo.InvitedUserId == RUId)
+            {
+                if (InvitatoinFromRepo.Status==Status.Pending)
+                {
+                    InvitatoinFromRepo.Status = Status.Declined;
+                    _repo.UpdateInvitation(InvitatoinFromRepo);
+                    return NoContent();
+                    
+                }
+                return StatusCode(StatusCodes.Status410Gone, $"Can't edit the invitations as it has already been {Invitation.Status}");
+            }
+            return Unauthorized();
+        }
+
+
         //seperate endpoint for accepting an invitation?
+        [HttpPatch("{InvitationId}/Accept")]
+        [Authorize]
+        public IActionResult AcceptInvitation(int InvitationId, EventUserCreateDto EventUserCreateDto)
+        {
+            var RUId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var InvitatoinFromRepo = _repo.GetInvitationById(InvitationId);
+            if (InvitatoinFromRepo.InvitedUserId == RUId && EventUserCreateDto.UserId==RUId)
+            {
+                if(InvitatoinFromRepo.Status == Status.Pending)
+                {
+                    InvitatoinFromRepo.Status=Status.Accepted;
+                    _repo.UpdateInvitation(InvitatoinFromRepo);
+                    var EventUser = _mapper.Map<EventUser>(EventUserCreateDto);
+                    _repo.AddEventUser(EventUser);
+                    return NoContent();
+                }
+                return StatusCode(StatusCodes.Status410Gone, $"Can't edit the invitations as it has already been {Invitation.Status}");
+            }
+            return Unauthorized();
+        }
+        //delete an invitation
+        [HttpPatch("{InvitatoinId}/Cancle")]
+        [Authorize]
+        public IActionResult CancleInvitation(int InvitationId)
+        {
+            var RUId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var Invitation = _repo.GetInvitationById(InvitationId);
+            var RUEvent=_repo.GetEventUser(Invitation.EventId, RUId);
+            if (RUEvent.Role < EventRole.Particpant)
+            {
+                if(Invitation.Status==Status.Pending)
+                {
+                    Invitation.Status=Status.Cancled;
+                    _repo.UpdateInvitation(Invitation);
+                    return NoContent();
+                }
+                return StatusCode(StatusCodes.Status423Locked, $"Can't edit the invitations as it has already been {Invitation.Status}");
+            }
+            return Unauthorized();
+        }
     }
 }

@@ -18,5 +18,11 @@ namespace WebApplication2.Services
         UserOrg GetOrgUser(int orgId,string userId);
         void DeleteOrgUser(UserOrg userOrg);
 
+        //Address
+        void AddAddress(Adress Address);
+        void UpdateAddress(Adress Address);
+        void DeleteAddress(Adress Address);
+        Adress GetAddress(int AddressId);
+        IEnumerable<Adress> GetOrgAddresses(int OrganizatoinId);
     }
 } 

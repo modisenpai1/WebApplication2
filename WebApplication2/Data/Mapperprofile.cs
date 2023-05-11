@@ -41,6 +41,8 @@ namespace WebApplication2.Data
 
 
             CreateMap<AddressRefDto,Adress>().ReverseMap();
+            CreateMap<AddressCreateDto, Adress>().ReverseMap();
+            CreateMap<AddressReadDto, Adress>().ReverseMap();
         }
     }
 }

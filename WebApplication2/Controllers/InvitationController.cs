@@ -9,7 +9,7 @@ using WebApplication2.Services;
 namespace WebApplication2.Controllers
 {
     [Controller]
-    [Route("Invitation")]
+    [Route("invitation")]
     public class InvitationController : ControllerBase
     {
         private readonly IEventService _repo;
@@ -114,7 +114,7 @@ namespace WebApplication2.Controllers
 
 
         //Decline the Invitation
-        [HttpPatch("{InvitationId}/Decline")]
+        [HttpPatch("{InvitationId}/decline")]
         [Authorize]
         public IActionResult DeclineInvitatoin(int InvitationId)
         {
@@ -136,7 +136,7 @@ namespace WebApplication2.Controllers
 
 
         //seperate endpoint for accepting an invitation?
-        [HttpPatch("{InvitationId}/Accept")]
+        [HttpPatch("{InvitationId}/accept")]
         [Authorize]
         public IActionResult AcceptInvitation(int InvitationId, EventUserCreateDto EventUserCreateDto)
         {
@@ -157,7 +157,7 @@ namespace WebApplication2.Controllers
             return Unauthorized();
         }
         //delete an invitation
-        [HttpPatch("{InvitatoinId}/Cancle")]
+        [HttpPatch("{InvitatoinId}/cancle")]
         [Authorize]
         public IActionResult CancleInvitation(int InvitationId)
         {

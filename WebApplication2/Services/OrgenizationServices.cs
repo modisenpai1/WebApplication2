@@ -3,17 +3,21 @@ using Microsoft.Identity.Client;
 using System.Diagnostics.Metrics;
 using WebApplication2.Data;
 using WebApplication2.Domain.Models;
+using static Duende.IdentityServer.Models.IdentityResources;
+
 namespace WebApplication2.Services
 {
     public class OrgenizationServices : IOrgenizationServices
     {
         private readonly IAppRepo<Orginization> _repo;
         private readonly IAppRepo<UserOrg> _UserOrgrepo;
+        private readonly IAppRepo<Adress> _AddressRepo;
 
-        public OrgenizationServices(IAppRepo<Orginization> repo, IAppRepo<UserOrg> userOrgrepo)
+        public OrgenizationServices(IAppRepo<Orginization> repo, IAppRepo<UserOrg> userOrgrepo, IAppRepo<Adress> addressRepo)
         {
             _repo = repo;
             _UserOrgrepo = userOrgrepo;
+            _AddressRepo= addressRepo;
         }
 
         public void addOrgenization(Orginization orginization)
@@ -78,5 +82,38 @@ namespace WebApplication2.Services
             _UserOrgrepo.SaveChanges();
         }
 
+        //Addresses___________________________________________________________________________
+        public void AddAddress(Adress Address)
+        {
+            _AddressRepo.AddItem(Address);
+            _AddressRepo.SaveChanges();
+        }
+        public void UpdateAddress(Adress Address)
+        {
+            _AddressRepo.UpdateItem(Address);
+            _AddressRepo.SaveChanges();
+        }
+        public void DeleteAddress(Adress Address) 
+        {
+            _AddressRepo.DeleteItem(Address);
+            _AddressRepo.SaveChanges();
+        }
+        public Adress GetAddress(int AddressId)
+        {
+            return _AddressRepo.Table.
+                Include(x => x.City).
+                Include(x => x.Country).
+                Include(x => x.Orginization).
+                FirstOrDefault(x => x.Id == AddressId);
+        }
+        public IEnumerable<Adress> GetOrgAddresses(int OrganizatoinId)
+        {
+            return _AddressRepo.Table.
+                Include(x => x.City).
+                Include(x => x.Country).
+                Include(x => x.Orginization).
+                Where(x => x.OrginizationId==OrganizatoinId).
+                ToList();
+        }
     }
 }

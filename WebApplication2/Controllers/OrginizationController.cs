@@ -191,6 +191,86 @@ namespace WebApplication2.Controllers
             _repo.DeleteOrgUser(userOrgFromRepo);
             return NoContent();
         }
+        // addresses +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        //post only organizatoin managers can post
+        [HttpPost("{orgId}/addresses")]
+        [Authorize]
+        public IActionResult AddAdress(int orgId, AddressCreateDto addressCreateDto)
+        {
+            var RUId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var RUOrg = _repo.GetOrgUser(orgId, RUId);
+            if(RUOrg== null || RUOrg.Role>OrgRole.Administrator)
+            {
+                return Unauthorized();
+            }
+            if (orgId != addressCreateDto.OrginizationId)
+            {
+                //change error messages
+                return BadRequest("Organizatoin to edit doesn't match provided id");
+            }
+            var Address = _mapper.Map<Adress>(addressCreateDto);
+            _repo.AddAddress(Address);
+            return NoContent();
+        }
+        //read every one can read addresses of the organization as long as they are logged in
+        [HttpGet("{orgId}/addresses")]
+        [Authorize]
+        public IActionResult GetOrgAddresses(int orgId)
+        {
+            var Addresses=_mapper.Map<IEnumerable<Adress>>(_repo.GetOrgAddresses(orgId));
+            return Ok(Addresses);
+        }
+        //patch only admins can patch the addresses
+        [HttpPatch("{orgId}/addresses/{addressId}")]
+        [Authorize]
+        public IActionResult PatchAddress(int orgId,int addressId, JsonPatchDocument<AddressCreateDto> patchDoc)
+        {
+            var RUId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var RUOrg = _repo.GetOrgUser(orgId, RUId);
+            var AddressFromRepo=_repo.GetAddress(addressId);
+            if(AddressFromRepo==null)
+            {
+                return NotFound();
+            }
+            if (RUOrg == null || RUOrg.Role > OrgRole.Administrator)
+            {
+                return Unauthorized();
+            }
+            if (AddressFromRepo.OrginizationId!=orgId)
+            {
+                //change error messages
+                return BadRequest("Organizatoin to edit doesn't match provided id");
+            }
+            var AddressToPatch = _mapper.Map<AddressCreateDto>(AddressFromRepo);
+            patchDoc.ApplyTo(AddressToPatch, ModelState);
+            if (!TryValidateModel(AddressToPatch))
+            {
+                return ValidationProblem(ModelState);
+            }
+            _mapper.Map(AddressToPatch, AddressFromRepo);
+            _repo.UpdateAddress(AddressFromRepo);
+            return NoContent();
+        }
+        //delete only admins can patch 
+        [HttpDelete("{orgId/Addresses/{AddressId}")]
+        [Authorize]
+        public IActionResult DeleteAddress(int orgId,int addressId)
+        {
+            var RUId=User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var RUOrg = _repo.GetOrgUser(orgId, RUId);
+            var AddressFromRepo=_repo.GetAddress(addressId);
+            if (RUOrg == null || RUOrg.Role > OrgRole.Administrator)
+            {
+                return Unauthorized();
+            }
+            if (orgId != AddressFromRepo.OrginizationId)
+            {
+                //change error messages
+                return BadRequest("Organizatoin to edit doesn't match provided id");
+            }
+            _repo.DeleteAddress(AddressFromRepo);
+            return NoContent();
+        }
 
     }
 }

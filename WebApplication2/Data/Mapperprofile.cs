@@ -8,13 +8,13 @@ namespace WebApplication2.Data
     {
         public Mapperprofile()
         {
-            CreateMap<CityCreateDto,City>().ReverseMap();
+            CreateMap<City, CityCreateDto>().ReverseMap();
             CreateMap<City,CityReadDto>().ReverseMap();
             CreateMap<City, CityRefDto>().ReverseMap();
 
             CreateMap<Country,CountryRefDto>().ReverseMap();
             CreateMap<Country, CountryReadDto>().ReverseMap();
-            CreateMap<CountryCreateDto, Country>().ReverseMap();
+            CreateMap<Country,CountryCreateDto>().ReverseMap();
 
             CreateMap<User, UserRegisterDto>().ReverseMap();
             CreateMap<User, UserReadDto>().ReverseMap();
@@ -22,27 +22,29 @@ namespace WebApplication2.Data
             CreateMap<User, UserLoginDto>().ReverseMap();
 
             CreateMap<Event,EventReadDto>().ReverseMap();
-            CreateMap<EventCreateDto, Event>().ReverseMap();
-            CreateMap<EventRefDto, Event>().ReverseMap();
+            CreateMap<Event,EventCreateDto>().ReverseMap();
+            CreateMap<Event,EventRefDto>().ReverseMap();
+            CreateMap<Event, EventSearchDto>().ReverseMap();
 
-            CreateMap<UserEventReadDto,EventUser>().ReverseMap();
-            CreateMap<EventUserReadDto,EventUser>().ReverseMap();
+            CreateMap<EventUser, UserEventReadDto>().ReverseMap();
+            CreateMap<EventUser, EventUserReadDto>().ReverseMap();
 
             CreateMap<Invitation,InvitationReadDto>().ReverseMap();
             CreateMap<Invitation,InvitationCreateDto>().ReverseMap();
 
-            CreateMap<OrganizationRefDto,Orginization>().ReverseMap();
-            CreateMap<OrginizationReadDtos, Orginization>().ReverseMap();
+            CreateMap<Orginization, OrganizationRefDto>().ReverseMap();
+            CreateMap<Orginization, OrginizationReadDtos>().ReverseMap();
             CreateMap<Orginization, OrginizationCreateDto>().ReverseMap();
+            CreateMap<Orginization,OrginizationSearchDto>().ReverseMap();
 
-            CreateMap<UserOrgCreateDto,UserOrg>().ReverseMap();
-            CreateMap<UserOrgReadDto, UserOrg>().ReverseMap();
-            CreateMap<OrgUserReadDto, UserOrg>().ReverseMap();
+            CreateMap<UserOrg, UserOrgCreateDto>().ReverseMap();
+            CreateMap<UserOrg, UserOrgReadDto>().ReverseMap();
+            CreateMap<UserOrg, OrgUserReadDto>().ReverseMap();
 
 
-            CreateMap<AddressRefDto,Adress>().ReverseMap();
-            CreateMap<AddressCreateDto, Adress>().ReverseMap();
-            CreateMap<AddressReadDto, Adress>().ReverseMap();
+            CreateMap<Adress, AddressRefDto>().ReverseMap();
+            CreateMap<Adress, AddressCreateDto>().ReverseMap();
+            CreateMap<Adress, AddressReadDto>().ReverseMap();
         }
     }
 }

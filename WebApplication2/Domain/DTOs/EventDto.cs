@@ -50,6 +50,19 @@ namespace WebApplication2.Domain.DTOs
         public string Description { get; set; }
         public Accessibality accessibality { get; set; }
     }
+    public class EventSearchDto
+    {
+        public string? Title { get; set; }
+        public DateTime? StartTime { get; set; }
+        public DateTime? EndTime { get; set; }
+        public Accessibality? accessibality { get; set; }
+        public bool? IsOnline { get; set; }
+        public bool? hasMaxCap { get; set; }
+        public int? AdressId { get; set; }
+        public int? OrginizationId { get; set; }
+        public int? CityId { get; set; }
+        public int? CountryId { get; set; }
+    }
 
 
 }

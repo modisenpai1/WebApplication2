@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata.Ecma335;
 using WebApplication2.Data;
+using WebApplication2.Domain.DTOs;
 using WebApplication2.Domain.Models;
 
 namespace WebApplication2.Services
@@ -30,7 +31,10 @@ namespace WebApplication2.Services
             _repo.SaveChanges();
         }
 
-
+        public IEnumerable<Event> Search(EventSearchDto eventSearchDto)
+        {
+            throw new NotImplementedException();
+        }
 
         public IEnumerable<Event> GetAll()
         {
@@ -78,6 +82,7 @@ namespace WebApplication2.Services
             _repo.UpdateItem(evnt);
             _repo.SaveChanges();
         }
+
         //EventUser___________________________________________________________________________________________
         public void UpdateEventUser(EventUser eventUser)
         {
@@ -193,6 +198,11 @@ namespace WebApplication2.Services
             
 
 
+        }
+
+        public IEnumerable<Event> Search(EventSearchDto eventSearchDto)
+        {
+            throw new NotImplementedException();
         }
 
         //get invitation for user

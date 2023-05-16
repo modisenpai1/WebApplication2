@@ -1,4 +1,5 @@
-﻿using WebApplication2.Domain.Models;
+﻿using WebApplication2.Domain.DTOs;
+using WebApplication2.Domain.Models;
 
 namespace WebApplication2.Services
 {
@@ -10,6 +11,7 @@ namespace WebApplication2.Services
         public IEnumerable<Event> Search(string name,City city);
         public void Update(Event evnt);
         public void Delete(Event evnt);
+        public IEnumerable<Event> Search(EventSearchDto eventSearchDto);
         //event User
         void AddEventUser(EventUser eventUser);
         void UpdateEventUser(EventUser eventUser);

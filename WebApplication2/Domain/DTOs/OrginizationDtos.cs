@@ -36,4 +36,10 @@ namespace WebApplication2.Domain.DTOs
         public string? ImgPath { get; set; }
 
     }
+    public class OrginizationSearchDto
+    {
+        public string phoneNumber { get; set; }
+        public string Name { get; set; }
+
+    }
 }

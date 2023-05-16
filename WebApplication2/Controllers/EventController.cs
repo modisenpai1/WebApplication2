@@ -31,7 +31,7 @@ namespace WebApplication2.Controllers
             return Ok(events);
         }
 
-
+        
         [Authorize]
         [HttpGet("homepage")]
         [Produces(typeof(EventReadDto))]
@@ -46,7 +46,7 @@ namespace WebApplication2.Controllers
         }
 
 
-        [HttpGet("{search}")]
+        [HttpGet("/search")]
         [Produces(typeof(EventReadDto))]
         public IActionResult SearchEvents(string name, CityRefDto cityRefDto) {
             var city = _mapper.Map<City>(cityRefDto);
